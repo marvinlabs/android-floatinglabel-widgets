@@ -1,0 +1,136 @@
+import com.android.builder.core.BuilderConstants
+import org.gradle.api.tasks.wrapper.Wrapper
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-plugin:1.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'android-maven'
+apply plugin: 'signing'
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        versionCode getAppVersionCode()
+        versionName getAppVersionName()
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:20.0.0'
+}
+
+group = "com.marvinlabs"
+version = getAppVersionName()
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    if (name.equals(BuilderConstants.DEBUG)) {
+        return; // Skip debug builds.
+    }
+    task("javadoc${variant.name.capitalize()}", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+
+        if (android.plugin.hasProperty("sdkHandler")) {
+            androidPath = "${android.plugin.sdkHandler.sdkFolder}"
+        } else {
+            androidPath = "${android.plugin.sdkDirectory}"
+        }
+
+        ext.androidJar = androidPath + "/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+    }
+
+    task("bundleJavadoc${variant.name.capitalize()}", type: Jar) {
+        description "Bundles Javadoc into zip for $variant.name."
+        classifier = "javadoc"
+        from tasks["javadoc${variant.name.capitalize()}"]
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java
+}
+
+task jar(type: Jar) {
+    from 'build/classes/release'
+}
+
+task javadocJar(type: Jar, dependsOn: "javadocRelease") {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives jar
+}
+
+task wrapper(type: Wrapper) {
+    description "Generates the gradle wrapper"
+    gradleVersion = "1.10"
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: getSonatypeRepositoryUrl()) {
+                authentication(userName: getSonatypeRepositoryUser(), password: getSonatypeRepositoryPassword())
+            }
+
+            pom.project {
+                name 'Android Floating Label Widgets'
+                artifactId 'android-floatinglabel-widgets'
+                packaging 'aar'
+                description 'A set of input widgets to show a floating label when not empty.'
+                url 'https://github.com/marvinlabs/android-floatinglabel-widgets'
+
+                scm {
+                    url 'scm:git@github.com:marvinlabs/android-floatinglabel-widgets.git'
+                    connection 'scm:git@github.com:marvinlabs/android-floatinglabel-widgets.git'
+                    developerConnection 'scm:git@github.com:marvinlabs/android-floatinglabel-widgets.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'vpratfr'
+                        name 'Vincent Mimoun-Prat'
+                    }
+                }
+            }
+        }
+    }
+}

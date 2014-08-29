@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="FloatingLabelWidget" parent="@android:style/Widget.Holo">
+    </style>
+
+    <style name="FloatingLabelWidget.Label" parent="@android:style/Widget.Holo.TextView">
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="FloatingLabelWidget.Label.EditText">
+    </style>
+
+    <style name="FloatingLabelWidget.InputWidget.EditText" parent="@android:style/Widget.Holo.EditText">
+        <item name="android:background">@drawable/bg_edittext</item>
+    </style>
+
+    <style name="FloatingLabelWidget.Label.Picker">
+    </style>
+
+    <style name="FloatingLabelWidget.InputWidget.Picker" parent="@android:style/Widget.Holo.TextView">
+        <item name="android:background">@drawable/bg_edittext</item>
+        <item name="android:drawableRight">@drawable/ic_picker</item>
+    </style>
+
+</resources>

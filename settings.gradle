@@ -1,0 +1,5 @@
+rootProject.name = 'android-floatinglabel-widgets'
+rootProject.children.each {
+    it.name = rootProject.name + "-" + it.name
+}
+include ':library', ':demo'
