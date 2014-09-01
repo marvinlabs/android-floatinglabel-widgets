@@ -56,13 +56,13 @@ public class JavaTimeInstant implements TimeInstant {
         this.secondOfMinute = in.readInt();
     }
 
-    public static final Creator<TimeInstant> CREATOR = new Creator<TimeInstant>() {
-        public TimeInstant createFromParcel(Parcel source) {
+    public static final Creator<JavaTimeInstant> CREATOR = new Creator<JavaTimeInstant>() {
+        public JavaTimeInstant createFromParcel(Parcel source) {
             return new JavaTimeInstant(source);
         }
 
-        public TimeInstant[] newArray(int size) {
-            return new TimeInstant[size];
+        public JavaTimeInstant[] newArray(int size) {
+            return new JavaTimeInstant[size];
         }
     };
 
