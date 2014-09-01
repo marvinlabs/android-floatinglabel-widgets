@@ -4,6 +4,12 @@
     <style name="FloatingLabelWidget" parent="@android:style/Widget.Holo">
     </style>
 
+    <style name="FloatingLabelWidget.ItemPicker">
+    </style>
+
+    <style name="FloatingLabelWidget.InstantPicker">
+    </style>
+
     <style name="FloatingLabelWidget.Label" parent="@android:style/Widget.Holo.TextView">
         <item name="android:lines">1</item>
     </style>

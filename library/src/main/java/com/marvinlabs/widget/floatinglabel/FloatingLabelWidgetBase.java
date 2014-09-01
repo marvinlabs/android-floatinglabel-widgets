@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -506,14 +505,14 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
             layoutId = getDefaultLayoutId();
             floatLabelText = null;
             floatLabelColor = 0x66000000;
-            floatLabelTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics());
+            floatLabelTextSize = getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize);
         } else {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
             floatLabelColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
-            floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+            floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 
             a.recycle();
         }
