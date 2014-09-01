@@ -12,7 +12,7 @@ import java.text.DateFormat;
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public class FloatingLabelTimePicker extends FloatingLabelInstantPicker<TimeInstant> {
+public class FloatingLabelTimePicker<TimeInstantT extends TimeInstant> extends FloatingLabelInstantPicker<TimeInstantT> {
 
     // =============================================================================================
     // Lifecycle
@@ -41,7 +41,7 @@ public class FloatingLabelTimePicker extends FloatingLabelInstantPicker<TimeInst
     }
 
     @Override
-    protected InstantPrinter<TimeInstant> getDefaultInstantPrinter() {
-        return new TimePrinter.JavaUtilPrinter(DateFormat.SHORT);
+    protected InstantPrinter<TimeInstantT> getDefaultInstantPrinter() {
+        return new JavaTimePrinter<TimeInstantT>(DateFormat.SHORT);
     }
 }

@@ -219,6 +219,11 @@ get updates about our work, you can also:
 
 ## Change log
 
+### 1.2.0 (2014-09-01)
+
+  - Making the instant pickers fully use generics so that we can use our own Instant implementations
+    (e.g. joda time)
+
 ### 1.1.0 (2014-09-01)
 
   - Adding time and date floating label pickers with system picker implementation for the dialogs

@@ -11,17 +11,16 @@ import android.widget.TimePicker;
 import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
-public class TimePickerFragment extends DialogFragment implements InstantPicker<TimeInstant> {
+public class TimePickerFragment<TimeInstantT extends TimeInstant> extends DialogFragment implements InstantPicker<TimeInstantT> {
 
     public static final String ARG_SELECTED_INSTANT = "SelectedInstant";
     public static final String ARG_PICKER_ID = "PickerId";
 
     protected int pickerId;
-    protected TimeInstant selectedInstant;
+    protected TimeInstantT selectedInstant;
 
-    protected ArrayList<InstantPickerListener<TimeInstant>> listeners = new ArrayList<InstantPickerListener<TimeInstant>>();
+    protected ArrayList<InstantPickerListener<TimeInstantT>> listeners = new ArrayList<InstantPickerListener<TimeInstantT>>();
 
     // =============================================================================================
     // Factory methods
@@ -34,7 +33,7 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
      * @param selectedInstant The positions of the items already selected
      * @return The arguments bundle
      */
-    public static TimePickerFragment newInstance(int pickerId, TimeInstant selectedInstant) {
+    public static <TimeInstantT extends TimeInstant> TimePickerFragment newInstance(int pickerId, TimeInstantT selectedInstant) {
         TimePickerFragment f = new TimePickerFragment();
 
         Bundle args = new Bundle();
@@ -55,11 +54,11 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
         super.onAttach(activity);
 
         if (activity instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<TimeInstant>) activity);
+            addListener((InstantPickerListener<TimeInstantT>) activity);
         }
 
         if (getParentFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<TimeInstant>) getParentFragment());
+            addListener((InstantPickerListener<TimeInstantT>) getParentFragment());
         }
     }
 
@@ -67,11 +66,11 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
     @SuppressWarnings("unchecked")
     public void onDetach() {
         if (getActivity() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<TimeInstant>) getActivity());
+            removeListener((InstantPickerListener<TimeInstantT>) getActivity());
         }
 
         if (getParentFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<TimeInstant>) getParentFragment());
+            removeListener((InstantPickerListener<TimeInstantT>) getParentFragment());
         }
 
         // Persist the new selected items in the arguments
@@ -84,8 +83,8 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         readArguments();
 
-        int hour = selectedInstant.hourOfDay;
-        int minute = selectedInstant.minuteOfHour;
+        int hour = selectedInstant.getHourOfDay();
+        int minute = selectedInstant.getMinuteOfHour();
 
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), timeSetListener, hour, minute, DateFormat.is24HourFormat(getActivity()));
@@ -104,10 +103,10 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
         final Bundle args = getArguments();
 
         pickerId = args.getInt(ARG_PICKER_ID);
-        setSelectedInstant((TimeInstant) args.getParcelable(ARG_SELECTED_INSTANT));
+        setSelectedInstant((TimeInstantT) args.getParcelable(ARG_SELECTED_INSTANT));
 
-        if (selectedInstant==null) {
-            selectedInstant = TimeInstant.fromCalendar(new GregorianCalendar());
+        if (selectedInstant == null) {
+            throw new RuntimeException("Missing picker argument: selected instant");
         }
     }
 
@@ -116,17 +115,17 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
     // ==
 
     @Override
-    public void addListener(InstantPickerListener<TimeInstant> listener) {
+    public void addListener(InstantPickerListener<TimeInstantT> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(InstantPickerListener<TimeInstant> listener) {
+    public void removeListener(InstantPickerListener<TimeInstantT> listener) {
         listeners.remove(listener);
     }
 
     protected void notifyInstantSelected() {
-        for (InstantPickerListener<TimeInstant> listener : listeners) {
+        for (InstantPickerListener<TimeInstantT> listener : listeners) {
             listener.onInstantSelected(getPickerId(), getSelectedInstant());
         }
     }
@@ -141,12 +140,12 @@ public class TimePickerFragment extends DialogFragment implements InstantPicker<
     }
 
     @Override
-    public void setSelectedInstant(TimeInstant instant) {
+    public void setSelectedInstant(TimeInstantT instant) {
         this.selectedInstant = instant;
     }
 
     @Override
-    public TimeInstant getSelectedInstant() {
+    public TimeInstantT getSelectedInstant() {
         return selectedInstant;
     }
 

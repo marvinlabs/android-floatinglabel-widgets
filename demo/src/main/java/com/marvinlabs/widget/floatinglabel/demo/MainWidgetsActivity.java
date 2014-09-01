@@ -3,14 +3,14 @@ package com.marvinlabs.widget.floatinglabel.demo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.marvinlabs.widget.floatinglabel.instantpicker.DateInstant;
 import com.marvinlabs.widget.floatinglabel.instantpicker.DatePickerFragment;
 import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker;
 import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelInstantPicker;
 import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelTimePicker;
 import com.marvinlabs.widget.floatinglabel.instantpicker.Instant;
 import com.marvinlabs.widget.floatinglabel.instantpicker.InstantPickerListener;
-import com.marvinlabs.widget.floatinglabel.instantpicker.TimeInstant;
+import com.marvinlabs.widget.floatinglabel.instantpicker.JavaDateInstant;
+import com.marvinlabs.widget.floatinglabel.instantpicker.JavaTimeInstant;
 import com.marvinlabs.widget.floatinglabel.instantpicker.TimePickerFragment;
 import com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker;
 import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
@@ -25,8 +25,8 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
 
     FloatingLabelItemPicker<String> picker1;
     FloatingLabelItemPicker<String> picker2;
-    FloatingLabelTimePicker timePicker;
-    FloatingLabelDatePicker datePicker;
+    FloatingLabelTimePicker<JavaTimeInstant> timePicker;
+    FloatingLabelDatePicker<JavaDateInstant> datePicker;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -70,20 +70,22 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
         });
 
         // Instant pickers
-        datePicker = (FloatingLabelDatePicker) findViewById(R.id.date_picker);
-        datePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<DateInstant>() {
+        datePicker = (FloatingLabelDatePicker<JavaDateInstant>) findViewById(R.id.date_picker);
+        datePicker.setSelectedInstant(new JavaDateInstant());
+        datePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<JavaDateInstant>() {
             @Override
-            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<DateInstant> source) {
-                DatePickerFragment pickerFragment = DatePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<JavaDateInstant> source) {
+                DatePickerFragment<JavaDateInstant> pickerFragment = DatePickerFragment.<JavaDateInstant>newInstance(source.getId(), source.getSelectedInstant());
                 pickerFragment.show(getSupportFragmentManager(), "DatePicker");
             }
         });
 
-        timePicker = (FloatingLabelTimePicker) findViewById(R.id.time_picker);
-        timePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<TimeInstant>() {
+        timePicker = (FloatingLabelTimePicker<JavaTimeInstant>) findViewById(R.id.time_picker);
+        timePicker.setSelectedInstant(new JavaTimeInstant());
+        timePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<JavaTimeInstant>() {
             @Override
-            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<TimeInstant> source) {
-                TimePickerFragment pickerFragment = TimePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<JavaTimeInstant> source) {
+                TimePickerFragment pickerFragment = TimePickerFragment.<JavaTimeInstant>newInstance(source.getId(), source.getSelectedInstant());
                 pickerFragment.show(getSupportFragmentManager(), "TimePicker");
             }
         });
@@ -109,9 +111,9 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
     @Override
     public void onInstantSelected(int pickerId, Instant instant) {
         if (pickerId==R.id.date_picker) {
-            datePicker.setSelectedInstant((DateInstant) instant);
+            datePicker.setSelectedInstant((JavaDateInstant) instant);
         } else if (pickerId==R.id.time_picker) {
-            timePicker.setSelectedInstant((TimeInstant) instant);
+            timePicker.setSelectedInstant((JavaTimeInstant) instant);
         }
     }
 }
