@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.1.0@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.0@aar'
 }
 ```
     
