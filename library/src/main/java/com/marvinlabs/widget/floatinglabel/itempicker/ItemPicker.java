@@ -1,4 +1,4 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 /**
  * Something that allows the user to pick one or more items. This could be a dialog, ...

@@ -1,4 +1,4 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 import android.os.Bundle;
 import android.os.Parcelable;

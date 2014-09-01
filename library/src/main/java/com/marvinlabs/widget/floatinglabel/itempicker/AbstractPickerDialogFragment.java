@@ -1,4 +1,4 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -123,7 +123,7 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
         final ItemPrinter<ItemT> ip = getItemPrinter();
         CharSequence[] items = new CharSequence[availableItems.size()];
         for (int i = 0; i < availableItems.size(); ++i) {
-            items[i] = ip.itemToString(availableItems.get(i));
+            items[i] = ip.print(availableItems.get(i));
         }
 
         int checked = -1;
@@ -148,7 +148,7 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
         CharSequence[] items = new CharSequence[availableItems.size()];
         boolean[] checked = new boolean[availableItems.size()];
         for (int i = 0; i < availableItems.size(); ++i) {
-            items[i] = ip.itemToString(getItemAt(i));
+            items[i] = ip.print(getItemAt(i));
             if (selectedItems.get(i) != null) {
                 checked[i] = true;
             } else {

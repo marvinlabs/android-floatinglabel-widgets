@@ -1,11 +1,10 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -73,7 +72,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
 
     @Override
     protected int getDefaultLayoutId() {
-        return R.layout.flw_widget_floating_label_picker;
+        return R.layout.flw_widget_floating_label_item_picker;
     }
 
     @Override
@@ -140,7 +139,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
             getInputWidget().setText("");
         } else {
             setLabelAnchored(false);
-            getInputWidget().setText(getItemPrinter().itemsToString(getSelectedItems()));
+            getInputWidget().setText(getItemPrinter().printCollection(getSelectedItems()));
         }
     }
 
@@ -203,10 +202,10 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
      */
     protected void onSelectedItemsChanged() {
         if (selectedIndices == null || selectedIndices.length == 0) {
-            getInputWidget().setText("");
             anchorLabel();
+            getInputWidget().setText("");
         } else {
-            getInputWidget().setText(getItemPrinter().itemsToString(getSelectedItems()));
+            getInputWidget().setText(getItemPrinter().printCollection(getSelectedItems()));
             floatLabel();
         }
     }
@@ -247,7 +246,6 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     OnClickListener inputWidgetClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("FloatingLabelPicker", "FloatingLabelPicker clicked");
             requestShowPicker();
         }
     };
