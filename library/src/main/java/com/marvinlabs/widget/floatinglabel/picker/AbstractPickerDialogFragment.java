@@ -72,8 +72,13 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         if (activity instanceof ItemPickerListener) {
             addListener((ItemPickerListener<ItemT>) activity);
+        }
+
+        if (getParentFragment() instanceof ItemPickerListener) {
+            addListener((ItemPickerListener<ItemT>) getParentFragment());
         }
     }
 
@@ -81,6 +86,10 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
     public void onDetach() {
         if (getActivity() instanceof ItemPickerListener) {
             removeListener((ItemPickerListener<ItemT>) getActivity());
+        }
+
+        if (getParentFragment() instanceof ItemPickerListener) {
+            removeListener((ItemPickerListener<ItemT>) getParentFragment());
         }
 
         // Persist the new selected items in the arguments
