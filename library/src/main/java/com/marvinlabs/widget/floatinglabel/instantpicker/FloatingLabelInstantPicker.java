@@ -1,11 +1,10 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.instantpicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,56 +13,47 @@ import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 /**
  * A widget to pick one or more items from a list
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<TextView> {
+public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parcelable> extends FloatingLabelWidgetBase<TextView> {
 
-    private static final String SAVE_STATE_KEY_SELECTED_INDICES = "saveStateSelectedIndices";
+    private static final String SAVE_STATE_KEY_INSTANT = "saveStateInstant";
 
-    public interface OnItemPickerWidgetEventListener<ItemT> {
-        public void onShowItemPickerDialog(FloatingLabelItemPicker<ItemT> source);
+    public interface OnWidgetEventListener<InstantT extends Instant & Parcelable> {
+        public void onShowInstantPickerDialog(FloatingLabelInstantPicker<InstantT> source);
     }
 
     /**
-     * The available items
+     * The selected instant
      */
-    protected List<ItemT> availableItems;
+    protected InstantT selectedInstant;
 
     /**
-     * The selected items indices within the available items
+     * Something to turn our instant into a string
      */
-    protected int[] selectedIndices;
-
-    /**
-     * Something to turn our items into strings
-     */
-    protected ItemPrinter<ItemT> itemPrinter;
+    protected InstantPrinter instantPrinter;
 
     /**
      * The listener to notify when this widget has something to say
      */
-    protected OnItemPickerWidgetEventListener<ItemT> widgetListener;
+    protected OnWidgetEventListener<InstantT> widgetListener;
 
     // =============================================================================================
     // Lifecycle
     // ==
 
-    public FloatingLabelItemPicker(Context context) {
+    public FloatingLabelInstantPicker(Context context) {
         super(context);
     }
 
-    public FloatingLabelItemPicker(Context context, AttributeSet attrs) {
+    public FloatingLabelInstantPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FloatingLabelItemPicker(Context context, AttributeSet attrs, int defStyle) {
+    public FloatingLabelInstantPicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -73,7 +63,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
 
     @Override
     protected int getDefaultLayoutId() {
-        return R.layout.flw_widget_floating_label_picker;
+        return R.layout.flw_widget_floating_label_instant_picker;
     }
 
     @Override
@@ -83,13 +73,13 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
         final int drawablePadding;
 
         if (attrs == null) {
-            drawableLeftId =0;
-            drawableRightId = R.drawable.ic_picker;
-            drawablePadding=0;
+            drawableLeftId = 0;
+            drawableRightId = getDefaultIconResId();
+            drawablePadding = 0;
         } else {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
-            drawableRightId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableRight, R.drawable.ic_picker);
+            drawableRightId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableRight, getDefaultIconResId());
             drawableLeftId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableLeft, 0);
             drawablePadding = a.getDimensionPixelSize(R.styleable.FloatingLabelWidgetBase_android_drawablePadding, 0);
 
@@ -101,6 +91,8 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
         inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
         inputWidget.setCompoundDrawablePadding(drawablePadding);
     }
+
+    protected abstract int getDefaultIconResId();
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -122,25 +114,24 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
 
     @Override
     protected void putAdditionalInstanceState(Bundle saveState) {
-        if (selectedIndices != null) {
-            saveState.putIntArray(SAVE_STATE_KEY_SELECTED_INDICES, selectedIndices);
+        if (selectedInstant != null) {
+            saveState.putParcelable(SAVE_STATE_KEY_INSTANT, selectedInstant);
         }
     }
 
     @Override
     protected void restoreAdditionalInstanceState(Bundle savedState) {
-        selectedIndices = savedState.getIntArray(SAVE_STATE_KEY_SELECTED_INDICES);
-//        setSelectedIndices(selectedIndices);
+        selectedInstant = savedState.getParcelable(SAVE_STATE_KEY_INSTANT);
     }
 
     @Override
     protected void setInitialWidgetState() {
-        if (selectedIndices == null || selectedIndices.length == 0) {
+        if (selectedInstant == null) {
             setLabelAnchored(true);
             getInputWidget().setText("");
         } else {
             setLabelAnchored(false);
-            getInputWidget().setText(getItemPrinter().itemsToString(getSelectedItems()));
+            getInputWidget().setText(getInstantPrinter().print(getSelectedInstant()));
         }
     }
 
@@ -150,63 +141,37 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     }
 
     // =============================================================================================
-    // Item picking
+    // Instant picking
     // ==
 
     /**
-     * Sets the items that can be selected from this widget
+     * Set the instant currently selected
      *
-     * @param availableItems
+     * @param i The new selected instant
      */
-    public void setAvailableItems(List<ItemT> availableItems) {
-        this.availableItems = availableItems;
-    }
-
-    public List<ItemT> getAvailableItems() {
-        return availableItems;
+    public void setSelectedInstant(InstantT i) {
+        this.selectedInstant = i;
+        onSelectedInstantChanged();
     }
 
     /**
-     * Set the indices of the items currently selected
+     * Get the selected instant
      *
-     * @param indices The positions of the selected items within the available item list
+     * @return the instant (date or time)
      */
-    public void setSelectedIndices(int[] indices) {
-        selectedIndices = indices;
-        onSelectedItemsChanged();
-    }
-
-    /**
-     * Get the indices of the items currently selected
-     *
-     * @return an array of indices within the available items list
-     */
-    public int[] getSelectedIndices() {
-        return selectedIndices;
-    }
-
-    /**
-     * Get the items currently selected
-     *
-     * @return
-     */
-    public Collection<ItemT> getSelectedItems() {
-        ArrayList<ItemT> items = new ArrayList<ItemT>(selectedIndices == null ? 0 : selectedIndices.length);
-        for (int index : selectedIndices) {
-            items.add(availableItems.get(index));
-        }
-        return items;
+    public InstantT getSelectedInstant() {
+        return selectedInstant;
     }
 
     /**
      * Refreshes the widget state when the selection changes
      */
-    protected void onSelectedItemsChanged() {
-        if (selectedIndices == null || selectedIndices.length == 0) {
+    protected void onSelectedInstantChanged() {
+        if (selectedInstant == null) {
             getInputWidget().setText("");
             anchorLabel();
         } else {
-            getInputWidget().setText(getItemPrinter().itemsToString(getSelectedItems()));
+            getInputWidget().setText(getInstantPrinter().print(getSelectedInstant()));
             floatLabel();
         }
     }
@@ -215,31 +180,33 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
      * Show the item picker
      */
     protected void requestShowPicker() {
-        if (widgetListener != null) widgetListener.onShowItemPickerDialog(this);
+        if (widgetListener != null) widgetListener.onShowInstantPickerDialog(this);
     }
 
     // =============================================================================================
     // Other methods
     // ==
 
-    public OnItemPickerWidgetEventListener<ItemT> getWidgetListener() {
+    public OnWidgetEventListener<InstantT> getWidgetListener() {
         return widgetListener;
     }
 
-    public void setWidgetListener(OnItemPickerWidgetEventListener<ItemT> widgetListener) {
+    public void setWidgetListener(OnWidgetEventListener<InstantT> widgetListener) {
         this.widgetListener = widgetListener;
     }
 
-    public void setItemPrinter(ItemPrinter<ItemT> itemPrinter) {
-        this.itemPrinter = itemPrinter;
+    public void setInstantPrinter(InstantPrinter<InstantT> instantPrinter) {
+        this.instantPrinter = instantPrinter;
     }
 
-    public ItemPrinter<ItemT> getItemPrinter() {
-        if (itemPrinter == null) {
-            itemPrinter = new ItemPrinter.ToStringItemPrinter<ItemT>();
+    public InstantPrinter<InstantT> getInstantPrinter() {
+        if (instantPrinter == null) {
+            instantPrinter = getDefaultInstantPrinter();
         }
-        return itemPrinter;
+        return instantPrinter;
     }
+
+    protected abstract InstantPrinter<InstantT> getDefaultInstantPrinter();
 
     /**
      * Listen to click events on the input widget
@@ -247,7 +214,6 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     OnClickListener inputWidgetClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("FloatingLabelPicker", "FloatingLabelPicker clicked");
             requestShowPicker();
         }
     };

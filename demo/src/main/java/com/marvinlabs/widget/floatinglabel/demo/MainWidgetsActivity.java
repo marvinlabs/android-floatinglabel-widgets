@@ -3,20 +3,30 @@ package com.marvinlabs.widget.floatinglabel.demo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.marvinlabs.widget.floatinglabel.picker.FloatingLabelItemPicker;
-import com.marvinlabs.widget.floatinglabel.picker.ItemPickerListener;
-import com.marvinlabs.widget.floatinglabel.picker.StringPickerDialogFragment;
+import com.marvinlabs.widget.floatinglabel.instantpicker.DateInstant;
+import com.marvinlabs.widget.floatinglabel.instantpicker.DatePickerFragment;
+import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker;
+import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelInstantPicker;
+import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelTimePicker;
+import com.marvinlabs.widget.floatinglabel.instantpicker.Instant;
+import com.marvinlabs.widget.floatinglabel.instantpicker.InstantPickerListener;
+import com.marvinlabs.widget.floatinglabel.instantpicker.TimeInstant;
+import com.marvinlabs.widget.floatinglabel.instantpicker.TimePickerFragment;
+import com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker;
+import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
+import com.marvinlabs.widget.floatinglabel.itempicker.StringPickerDialogFragment;
 import com.marvinlabs.widget.slideshow.demo.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 
-public class MainWidgetsActivity extends FragmentActivity implements ItemPickerListener<String> {
+public class MainWidgetsActivity extends FragmentActivity implements ItemPickerListener<String>, InstantPickerListener {
 
     FloatingLabelItemPicker<String> picker1;
     FloatingLabelItemPicker<String> picker2;
+    FloatingLabelTimePicker timePicker;
+    FloatingLabelDatePicker datePicker;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -29,7 +39,7 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
         // Spinners
         picker1 = (FloatingLabelItemPicker<String>) findViewById(R.id.picker1);
         picker1.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 1.1", "Item 1.2", "Item 1.3", "Item 1.4", "Item 1.5", "Item 1.6", "Item 1.7", "Item 1.8")));
-        picker1.setWidgetListener(new FloatingLabelItemPicker.OnItemPickerWidgetEventListener<String>() {
+        picker1.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
             public void onShowItemPickerDialog(FloatingLabelItemPicker<String> source) {
                 StringPickerDialogFragment itemPicker1 = StringPickerDialogFragment.newInstance(
@@ -45,7 +55,7 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
 
         picker2 = (FloatingLabelItemPicker<String>) findViewById(R.id.picker2);
         picker2.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 2.1", "Item 2.2", "Item 2.3", "Item 2.4")));
-        picker2.setWidgetListener(new FloatingLabelItemPicker.OnItemPickerWidgetEventListener<String>() {
+        picker2.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
             public void onShowItemPickerDialog(FloatingLabelItemPicker source) {
                 StringPickerDialogFragment itemPicker2 = StringPickerDialogFragment.newInstance(
@@ -58,7 +68,28 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
                 itemPicker2.show(getSupportFragmentManager(), "ItemPicker2");
             }
         });
+
+        // Instant pickers
+        datePicker = (FloatingLabelDatePicker) findViewById(R.id.date_picker);
+        datePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<DateInstant>() {
+            @Override
+            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<DateInstant> source) {
+                DatePickerFragment pickerFragment = DatePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+                pickerFragment.show(getSupportFragmentManager(), "DatePicker");
+            }
+        });
+
+        timePicker = (FloatingLabelTimePicker) findViewById(R.id.time_picker);
+        timePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<TimeInstant>() {
+            @Override
+            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<TimeInstant> source) {
+                TimePickerFragment pickerFragment = TimePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+                pickerFragment.show(getSupportFragmentManager(), "TimePicker");
+            }
+        });
     }
+
+    // Implementation of the ItemPickerListener interface
 
     @Override
     public void onCancelled(int pickerId) {
@@ -70,6 +101,17 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
             picker1.setSelectedIndices(selectedIndices);
         } else if (pickerId==R.id.picker2) {
             picker2.setSelectedIndices(selectedIndices);
+        }
+    }
+
+    // Implementation of the InstantPickerListener interface
+
+    @Override
+    public void onInstantSelected(int pickerId, Instant instant) {
+        if (pickerId==R.id.date_picker) {
+            datePicker.setSelectedInstant((DateInstant) instant);
+        } else if (pickerId==R.id.time_picker) {
+            timePicker.setSelectedInstant((TimeInstant) instant);
         }
     }
 }

@@ -56,7 +56,7 @@ public class FloatingLabelEditText extends FloatingLabelWidgetBase<EditText> {
             inputType = InputType.TYPE_CLASS_TEXT;
             drawableRightId = 0;
             drawableLeftId = 0;
-            drawablePadding=0;
+            drawablePadding = 0;
         } else {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelEditText, defStyle, 0);
 

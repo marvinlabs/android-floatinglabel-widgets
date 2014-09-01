@@ -32,7 +32,7 @@
             android:inputType="textPassword"
             app:flw_labelText="Password input" />
 
-        <com.marvinlabs.widget.floatinglabel.picker.FloatingLabelItemPicker
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
             android:id="@+id/picker1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,12 +40,26 @@
             android:drawableRight="@drawable/ic_users"
             app:flw_labelText="Multiple item picker" />
 
-        <com.marvinlabs.widget.floatinglabel.picker.FloatingLabelItemPicker
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
             android:id="@+id/picker2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             app:flw_labelText="Single item picker" />
+
+        <com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_labelText="Pick a date" />
+
+        <com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelTimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_labelText="Pick a time" />
 
     </LinearLayout>
 </ScrollView>

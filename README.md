@@ -12,7 +12,7 @@ A demo of the widget is worth a thousand words. You can download it for free on 
          src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
 </a>
 
-We also have a small video showing it
+We also have a small video showing it (just click the image below)
 
 [![demo video](http://img.youtube.com/vi/hpZD9gJcRg0/0.jpg)](http://youtu.be/hpZD9gJcRg0)
 
@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.0.+@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.1.0@aar'
 }
 ```
     
@@ -62,7 +62,7 @@ To include a floating label ItemPicker in your layout, simply use the following 
 
 ```xml
 <!-- A widget that shows the result of item selection -->
-<com.marvinlabs.widget.floatinglabel.picker.FloatingLabelItemPicker
+<com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:flw_labelText="Item picker" />
@@ -121,6 +121,62 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
 }
 ```
 
+#### Instant pickers (DatePicker and TimePicker)
+
+To include a floating label instant picker in your layout, simply use the following XML code snippet:
+
+```xml
+<!-- A widget that shows the result of item selection -->
+<com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flw_labelText="Date picker" />
+    
+<!-- A widget that shows the result of item selection -->
+<com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelTimePicker
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flw_labelText="Time picker" />
+```
+
+We then need some code to bring up the instant pickers. The library ships with simple system
+picker implementations. Of course, you are free to roll your own pickers and/or use another library
+([Better pickers](https://github.com/derekbrameyer/android-betterpickers) is great). Here is how 
+we setup the widget in the demo activity:
+
+```java
+public class MainWidgetsActivity extends FragmentActivity implements InstantPickerListener<TimeInstant> {
+    FloatingLabelTimePicker timePicker;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Activity layout
+        setContentView(R.layout.activity_main_widgets);
+
+        // Spinners
+        timePicker = (FloatingLabelTimePicker) findViewById(R.id.time_picker);
+                
+        // We listen to our pickerWidget events to show the dialog
+        timePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<TimeInstant>() {
+            @Override
+            public void onShowInstantPickerDialog(FloatingLabelInstantPicker<TimeInstant> source) {
+                TimePickerFragment pickerFragment = TimePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+                pickerFragment.show(getSupportFragmentManager(), "TimePicker");
+            }
+        });
+    }
+
+    // Implementation of the InstantPickerListener interface
+
+    @Override
+    public void onInstantSelected(int pickerId, TimeInstant instant) {
+        timePicker.setSelectedInstant(instant);
+    }
+}
+```
+
 ## Customisable components
 
 This library has lots of interfaces and helper classes to help you either extend it and/or change
@@ -162,6 +218,15 @@ get updates about our work, you can also:
 * [Follow us on Facebook](http://www.facebook.com/studio.marvinlabs)
 
 ## Change log
+
+### 1.1.0 (2014-09-01)
+
+  - Adding time and date floating label pickers with system picker implementation for the dialogs
+  - Allow the AbstractPickerDialogFragment to send its events to the parent fragment too if that one
+    implements the ItemPickerListener interface (not only the parent Activity) 
+  - Removed unused attr "labelAllCaps", could be reintroduced later if requested
+  - Renamed OnItemPickerWidgetEventListener to OnWidgetEventListener for concision
+  - Fix #3
 
 ### 1.0.0 (2014-08-29)
 

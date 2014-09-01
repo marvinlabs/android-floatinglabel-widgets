@@ -1,4 +1,4 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 import java.util.Collection;
 
@@ -7,18 +7,18 @@ import java.util.Collection;
  */
 public interface ItemPrinter<ItemT> {
 
-    public String itemToString(ItemT item);
+    public String print(ItemT item);
 
-    public String itemsToString(Collection<ItemT> items);
+    public String printCollection(Collection<ItemT> items);
 
 
     public static class ToStringItemPrinter<ItemT> implements ItemPrinter<ItemT> {
 
-        public String itemToString(ItemT item) {
+        public String print(ItemT item) {
             return item==null ? "" : item.toString();
         }
 
-        public String itemsToString(Collection<ItemT> items) {
+        public String printCollection(Collection<ItemT> items) {
             if (items.size() == 0) return "";
 
             StringBuilder sb = new StringBuilder();
@@ -30,7 +30,7 @@ public interface ItemPrinter<ItemT> {
                     prependSeparator = true;
                 }
 
-                sb.append(itemToString(item));
+                sb.append(print(item));
             }
 
             return sb.toString();

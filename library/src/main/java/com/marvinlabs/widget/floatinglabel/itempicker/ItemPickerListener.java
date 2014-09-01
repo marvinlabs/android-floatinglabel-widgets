@@ -1,7 +1,7 @@
-package com.marvinlabs.widget.floatinglabel.picker;
+package com.marvinlabs.widget.floatinglabel.itempicker;
 
 /**
- * Listener that gets notified on dialog events. If an activity implements this interface, it
+ * Listener that gets notified on picker events. If an activity implements this interface, it
  * will automatically get notified.
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 29/08/2014.
