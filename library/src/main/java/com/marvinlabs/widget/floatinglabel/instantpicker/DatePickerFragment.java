@@ -10,17 +10,16 @@ import android.widget.DatePicker;
 import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
-public class DatePickerFragment extends DialogFragment implements InstantPicker<DateInstant> {
+public class DatePickerFragment<DateInstantT extends DateInstant> extends DialogFragment implements InstantPicker<DateInstantT> {
 
     public static final String ARG_SELECTED_INSTANT = "SelectedInstant";
     public static final String ARG_PICKER_ID = "PickerId";
 
     protected int pickerId;
-    protected DateInstant selectedInstant;
+    protected DateInstantT selectedInstant;
 
-    protected ArrayList<InstantPickerListener<DateInstant>> listeners = new ArrayList<InstantPickerListener<DateInstant>>();
+    protected ArrayList<InstantPickerListener<DateInstantT>> listeners = new ArrayList<InstantPickerListener<DateInstantT>>();
 
     // =============================================================================================
     // Factory methods
@@ -33,7 +32,7 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
      * @param selectedInstant The positions of the items already selected
      * @return The arguments bundle
      */
-    public static DatePickerFragment newInstance(int pickerId, DateInstant selectedInstant) {
+    public static <DateInstantT extends DateInstant> DatePickerFragment newInstance(int pickerId, DateInstantT selectedInstant) {
         DatePickerFragment f = new DatePickerFragment();
 
         Bundle args = new Bundle();
@@ -54,11 +53,11 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
         super.onAttach(activity);
 
         if (activity instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<DateInstant>) activity);
+            addListener((InstantPickerListener<DateInstantT>) activity);
         }
 
         if (getParentFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<DateInstant>) getParentFragment());
+            addListener((InstantPickerListener<DateInstantT>) getParentFragment());
         }
     }
 
@@ -66,11 +65,11 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
     @SuppressWarnings("unchecked")
     public void onDetach() {
         if (getActivity() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<DateInstant>) getActivity());
+            removeListener((InstantPickerListener<DateInstantT>) getActivity());
         }
 
         if (getParentFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<DateInstant>) getParentFragment());
+            removeListener((InstantPickerListener<DateInstantT>) getParentFragment());
         }
 
         // Persist the new selected items in the arguments
@@ -83,9 +82,9 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         readArguments();
 
-        int year = selectedInstant.year;
-        int monthOfYear = selectedInstant.monthOfYear + 1; // Because of Java constants
-        int dayOfMonth = selectedInstant.dayOfMonth;
+        int year = selectedInstant.getYear();
+        int monthOfYear = selectedInstant.getMonthOfYear() + 1; // Because of Java constants
+        int dayOfMonth = selectedInstant.getDayOfMonth();
 
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), dateSetListener, year, monthOfYear, dayOfMonth);
@@ -105,10 +104,10 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
         final Bundle args = getArguments();
 
         pickerId = args.getInt(ARG_PICKER_ID);
-        setSelectedInstant((DateInstant) args.getParcelable(ARG_SELECTED_INSTANT));
+        setSelectedInstant((DateInstantT) args.getParcelable(ARG_SELECTED_INSTANT));
 
         if (selectedInstant == null) {
-            selectedInstant = DateInstant.fromCalendar(new GregorianCalendar());
+            throw new RuntimeException("Missing picker argument: selected instant");
         }
     }
 
@@ -117,17 +116,17 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
     // ==
 
     @Override
-    public void addListener(InstantPickerListener<DateInstant> listener) {
+    public void addListener(InstantPickerListener<DateInstantT> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(InstantPickerListener<DateInstant> listener) {
+    public void removeListener(InstantPickerListener<DateInstantT> listener) {
         listeners.remove(listener);
     }
 
     protected void notifyInstantSelected() {
-        for (InstantPickerListener<DateInstant> listener : listeners) {
+        for (InstantPickerListener<DateInstantT> listener : listeners) {
             listener.onInstantSelected(getPickerId(), getSelectedInstant());
         }
     }
@@ -142,12 +141,12 @@ public class DatePickerFragment extends DialogFragment implements InstantPicker<
     }
 
     @Override
-    public void setSelectedInstant(DateInstant instant) {
+    public void setSelectedInstant(DateInstantT instant) {
         this.selectedInstant = instant;
     }
 
     @Override
-    public DateInstant getSelectedInstant() {
+    public DateInstantT getSelectedInstant() {
         return selectedInstant;
     }
 

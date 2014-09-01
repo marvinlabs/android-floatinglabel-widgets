@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.1.0@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.0@aar'
 }
 ```
     
@@ -218,6 +218,11 @@ get updates about our work, you can also:
 * [Follow us on Facebook](http://www.facebook.com/studio.marvinlabs)
 
 ## Change log
+
+### 1.2.0 (2014-09-01)
+
+  - Making the instant pickers fully use generics so that we can use our own Instant implementations
+    (e.g. joda time)
 
 ### 1.1.0 (2014-09-01)
 
