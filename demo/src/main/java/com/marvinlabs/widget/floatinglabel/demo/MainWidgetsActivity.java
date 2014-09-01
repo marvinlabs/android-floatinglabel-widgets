@@ -10,7 +10,6 @@ import com.marvinlabs.widget.slideshow.demo.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 
 public class MainWidgetsActivity extends FragmentActivity implements ItemPickerListener<String> {
@@ -29,7 +28,7 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
         // Spinners
         picker1 = (FloatingLabelItemPicker<String>) findViewById(R.id.picker1);
         picker1.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 1.1", "Item 1.2", "Item 1.3", "Item 1.4", "Item 1.5", "Item 1.6", "Item 1.7", "Item 1.8")));
-        picker1.setWidgetListener(new FloatingLabelItemPicker.OnItemPickerWidgetEventListener<String>() {
+        picker1.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
             public void onShowItemPickerDialog(FloatingLabelItemPicker<String> source) {
                 StringPickerDialogFragment itemPicker1 = StringPickerDialogFragment.newInstance(
@@ -45,7 +44,7 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
 
         picker2 = (FloatingLabelItemPicker<String>) findViewById(R.id.picker2);
         picker2.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 2.1", "Item 2.2", "Item 2.3", "Item 2.4")));
-        picker2.setWidgetListener(new FloatingLabelItemPicker.OnItemPickerWidgetEventListener<String>() {
+        picker2.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
             public void onShowItemPickerDialog(FloatingLabelItemPicker source) {
                 StringPickerDialogFragment itemPicker2 = StringPickerDialogFragment.newInstance(

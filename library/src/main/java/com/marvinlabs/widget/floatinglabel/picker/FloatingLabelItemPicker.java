@@ -27,7 +27,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
 
     private static final String SAVE_STATE_KEY_SELECTED_INDICES = "saveStateSelectedIndices";
 
-    public interface OnItemPickerWidgetEventListener<ItemT> {
+    public interface OnWidgetEventListener<ItemT> {
         public void onShowItemPickerDialog(FloatingLabelItemPicker<ItemT> source);
     }
 
@@ -49,7 +49,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     /**
      * The listener to notify when this widget has something to say
      */
-    protected OnItemPickerWidgetEventListener<ItemT> widgetListener;
+    protected OnWidgetEventListener<ItemT> widgetListener;
 
     // =============================================================================================
     // Lifecycle
@@ -222,11 +222,11 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     // Other methods
     // ==
 
-    public OnItemPickerWidgetEventListener<ItemT> getWidgetListener() {
+    public OnWidgetEventListener<ItemT> getWidgetListener() {
         return widgetListener;
     }
 
-    public void setWidgetListener(OnItemPickerWidgetEventListener<ItemT> widgetListener) {
+    public void setWidgetListener(OnWidgetEventListener<ItemT> widgetListener) {
         this.widgetListener = widgetListener;
     }
 
