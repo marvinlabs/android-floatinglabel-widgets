@@ -512,7 +512,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
-            floatLabelColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelColor, 0x66000000);
+            floatLabelColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
 
             a.recycle();
