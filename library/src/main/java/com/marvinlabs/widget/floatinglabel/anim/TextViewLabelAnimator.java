@@ -32,4 +32,21 @@ public class TextViewLabelAnimator<InputWidgetT extends TextView> extends Defaul
 
         return x;
     }
+
+    protected float getTargetY(InputWidgetT inputWidget, View label, boolean isAnchored) {
+        if (isAnchored) {
+            int lineHeight = inputWidget.getLineHeight();
+            int lineCount = inputWidget.getLineCount();
+
+            float targetY = inputWidget.getBottom() - inputWidget.getPaddingBottom() - label.getHeight();
+            if (lineCount > 1) {
+                targetY -= (lineCount - 1) * lineHeight;
+            }
+
+            return targetY;
+        } else {
+            final float targetScale = getTargetScale(inputWidget, label, isAnchored);
+            return inputWidget.getTop() - targetScale * label.getHeight();
+        }
+    }
 }
