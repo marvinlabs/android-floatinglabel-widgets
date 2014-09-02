@@ -227,10 +227,12 @@ get updates about our work, you can also:
 
 ## Change log
 
-### 1.2.1 (2014-09-)
+### 1.2.2 (2014-09-02)
 
   - Correct the Parcelable implementation for JavaTimeInstant and JavaDateInstant classes
   - Allow setting a target fragment to receive the events
+  - Fix a bug with instant fragments listeners not being notified 
+  - Improved the demo
    
 ### 1.2.0 (2014-09-01)
 

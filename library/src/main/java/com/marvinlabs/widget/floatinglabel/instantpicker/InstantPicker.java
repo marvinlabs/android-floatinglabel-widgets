@@ -37,18 +37,4 @@ public interface InstantPicker<InstantT extends Instant & Parcelable> {
      * @return
      */
     public boolean isSelectionEmpty();
-
-    /**
-     * Set the listener that will receive events
-     *
-     * @param listener The listener
-     */
-    public void addListener(InstantPickerListener<InstantT> listener);
-
-    /**
-     * Unset a listener
-     *
-     * @param listener The listener
-     */
-    public void removeListener(InstantPickerListener<InstantT> listener);
 }

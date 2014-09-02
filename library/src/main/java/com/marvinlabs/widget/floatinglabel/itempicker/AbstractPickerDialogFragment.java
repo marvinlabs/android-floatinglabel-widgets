@@ -1,6 +1,5 @@
 package com.marvinlabs.widget.floatinglabel.itempicker;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -70,40 +69,11 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
     // ==
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        if (activity instanceof ItemPickerListener) {
-            addListener((ItemPickerListener<ItemT>) activity);
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            addListener((ItemPickerListener<ItemT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            addListener((ItemPickerListener<ItemT>) getTargetFragment());
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        if (getActivity() instanceof ItemPickerListener) {
-            removeListener((ItemPickerListener<ItemT>) getActivity());
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            removeListener((ItemPickerListener<ItemT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            removeListener((ItemPickerListener<ItemT>) getTargetFragment());
-        }
-
+    public void onPause() {
         // Persist the new selected items in the arguments
         getArguments().putIntArray(ARG_SELECTED_ITEMS_INDICES, getSelectedIndices());
 
-        super.onDetach();
+        super.onPause();
     }
 
     @Override
@@ -201,25 +171,33 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
     // Dialog listeners
     // ==
 
-    @Override
-    public void addListener(ItemPickerListener<ItemT> l) {
-        listeners.add(l);
-    }
-
-    @Override
-    public void removeListener(ItemPickerListener<ItemT> l) {
-        listeners.remove(l);
-    }
-
+    @SuppressWarnings("unchecked")
     protected void notifyDialogCancelled() {
-        for (ItemPickerListener<ItemT> listener : listeners) {
-            listener.onCancelled(getPickerId());
+        if (getActivity() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getActivity()).onCancelled(getPickerId());
+        }
+
+        if (getParentFragment() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getParentFragment()).onCancelled(getPickerId());
+        }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getTargetFragment()).onCancelled(getPickerId());
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void notifyItemsSelected() {
-        for (ItemPickerListener<ItemT> listener : listeners) {
-            listener.onItemsSelected(getPickerId(), getSelectedIndices());
+        if (getActivity() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getActivity()).onItemsSelected(getPickerId(), getSelectedIndices());
+        }
+
+        if (getParentFragment() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getParentFragment()).onItemsSelected(getPickerId(), getSelectedIndices());
+        }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            ((ItemPickerListener<ItemT>) getTargetFragment()).onItemsSelected(getPickerId(), getSelectedIndices());
         }
     }
 
