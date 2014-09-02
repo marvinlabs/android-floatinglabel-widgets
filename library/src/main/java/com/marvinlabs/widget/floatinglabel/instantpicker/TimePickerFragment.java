@@ -1,6 +1,5 @@
 package com.marvinlabs.widget.floatinglabel.instantpicker;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -49,42 +48,11 @@ public class TimePickerFragment<TimeInstantT extends TimeInstant> extends Dialog
     // ==
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        if (activity instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<TimeInstantT>) activity);
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<TimeInstantT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<TimeInstantT>) getTargetFragment());
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void onDetach() {
-        if (getActivity() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<TimeInstantT>) getActivity());
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<TimeInstantT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<TimeInstantT>) getTargetFragment());
-        }
-
+    public void onPause() {
         // Persist the new selected items in the arguments
         getArguments().putParcelable(ARG_SELECTED_INSTANT, getSelectedInstant());
 
-        super.onDetach();
+        super.onPause();
     }
 
     @Override
@@ -122,19 +90,18 @@ public class TimePickerFragment<TimeInstantT extends TimeInstant> extends Dialog
     // Dialog listeners
     // ==
 
-    @Override
-    public void addListener(InstantPickerListener<TimeInstantT> listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void removeListener(InstantPickerListener<TimeInstantT> listener) {
-        listeners.remove(listener);
-    }
-
+    @SuppressWarnings("unchecked")
     protected void notifyInstantSelected() {
-        for (InstantPickerListener<TimeInstantT> listener : listeners) {
-            listener.onInstantSelected(getPickerId(), getSelectedInstant());
+        if (getActivity() instanceof InstantPickerListener) {
+            ((InstantPickerListener<TimeInstantT>) getActivity()).onInstantSelected(getPickerId(), getSelectedInstant());
+        }
+
+        if (getParentFragment() instanceof InstantPickerListener) {
+            ((InstantPickerListener<TimeInstantT>) getParentFragment()).onInstantSelected(getPickerId(), getSelectedInstant());
+        }
+
+        if (getTargetFragment() instanceof InstantPickerListener) {
+            ((InstantPickerListener<TimeInstantT>) getTargetFragment()).onInstantSelected(getPickerId(), getSelectedInstant());
         }
     }
 

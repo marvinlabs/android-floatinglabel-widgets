@@ -1,6 +1,5 @@
 package com.marvinlabs.widget.floatinglabel.instantpicker;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.widget.DatePicker;
 
 import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
 
-import java.util.ArrayList;
-
 public class DatePickerFragment<DateInstantT extends DateInstant> extends DialogFragment implements InstantPicker<DateInstantT> {
 
     public static final String ARG_SELECTED_INSTANT = "SelectedInstant";
@@ -18,8 +15,6 @@ public class DatePickerFragment<DateInstantT extends DateInstant> extends Dialog
 
     protected int pickerId;
     protected DateInstantT selectedInstant;
-
-    protected ArrayList<InstantPickerListener<DateInstantT>> listeners = new ArrayList<InstantPickerListener<DateInstantT>>();
 
     // =============================================================================================
     // Factory methods
@@ -48,42 +43,11 @@ public class DatePickerFragment<DateInstantT extends DateInstant> extends Dialog
     // ==
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        if (activity instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<DateInstantT>) activity);
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<DateInstantT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            addListener((InstantPickerListener<DateInstantT>) getTargetFragment());
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void onDetach() {
-        if (getActivity() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<DateInstantT>) getActivity());
-        }
-
-        if (getParentFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<DateInstantT>) getParentFragment());
-        }
-
-        if (getTargetFragment() instanceof ItemPickerListener) {
-            removeListener((InstantPickerListener<DateInstantT>) getTargetFragment());
-        }
-
+    public void onPause() {
         // Persist the new selected items in the arguments
         getArguments().putParcelable(ARG_SELECTED_INSTANT, getSelectedInstant());
 
-        super.onDetach();
+        super.onPause();
     }
 
     @Override
@@ -123,19 +87,18 @@ public class DatePickerFragment<DateInstantT extends DateInstant> extends Dialog
     // Dialog listeners
     // ==
 
-    @Override
-    public void addListener(InstantPickerListener<DateInstantT> listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void removeListener(InstantPickerListener<DateInstantT> listener) {
-        listeners.remove(listener);
-    }
-
+    @SuppressWarnings("unchecked")
     protected void notifyInstantSelected() {
-        for (InstantPickerListener<DateInstantT> listener : listeners) {
-            listener.onInstantSelected(getPickerId(), getSelectedInstant());
+        if (getActivity() instanceof InstantPickerListener) {
+            ((InstantPickerListener<DateInstantT>) getActivity()).onInstantSelected(getPickerId(), getSelectedInstant());
+        }
+
+        if (getParentFragment() instanceof InstantPickerListener) {
+            ((InstantPickerListener<DateInstantT>) getParentFragment()).onInstantSelected(getPickerId(), getSelectedInstant());
+        }
+
+        if (getTargetFragment() instanceof InstantPickerListener) {
+            ((InstantPickerListener<DateInstantT>) getTargetFragment()).onInstantSelected(getPickerId(), getSelectedInstant());
         }
     }
 

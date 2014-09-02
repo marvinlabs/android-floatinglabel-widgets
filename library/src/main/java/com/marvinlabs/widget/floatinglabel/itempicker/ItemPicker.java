@@ -35,18 +35,4 @@ public interface ItemPicker<ItemT> {
      * @return
      */
     public boolean isSelectionEmpty();
-
-    /**
-     * Set the listener that will receive events
-     *
-     * @param listener The listener
-     */
-    public void addListener(ItemPickerListener<ItemT> listener);
-
-    /**
-     * Unset a listener
-     *
-     * @param listener The listener
-     */
-    public void removeListener(ItemPickerListener<ItemT> listener);
 }
