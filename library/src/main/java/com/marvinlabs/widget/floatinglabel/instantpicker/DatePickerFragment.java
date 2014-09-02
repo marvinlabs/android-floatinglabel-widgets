@@ -59,6 +59,10 @@ public class DatePickerFragment<DateInstantT extends DateInstant> extends Dialog
         if (getParentFragment() instanceof ItemPickerListener) {
             addListener((InstantPickerListener<DateInstantT>) getParentFragment());
         }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            addListener((InstantPickerListener<DateInstantT>) getTargetFragment());
+        }
     }
 
     @Override
@@ -70,6 +74,10 @@ public class DatePickerFragment<DateInstantT extends DateInstant> extends Dialog
 
         if (getParentFragment() instanceof ItemPickerListener) {
             removeListener((InstantPickerListener<DateInstantT>) getParentFragment());
+        }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            removeListener((InstantPickerListener<DateInstantT>) getTargetFragment());
         }
 
         // Persist the new selected items in the arguments
