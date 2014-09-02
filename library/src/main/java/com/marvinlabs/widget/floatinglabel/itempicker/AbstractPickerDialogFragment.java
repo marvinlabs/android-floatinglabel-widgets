@@ -80,6 +80,10 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
         if (getParentFragment() instanceof ItemPickerListener) {
             addListener((ItemPickerListener<ItemT>) getParentFragment());
         }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            addListener((ItemPickerListener<ItemT>) getTargetFragment());
+        }
     }
 
     @Override
@@ -90,6 +94,10 @@ public abstract class AbstractPickerDialogFragment<ItemT> extends DialogFragment
 
         if (getParentFragment() instanceof ItemPickerListener) {
             removeListener((ItemPickerListener<ItemT>) getParentFragment());
+        }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            removeListener((ItemPickerListener<ItemT>) getTargetFragment());
         }
 
         // Persist the new selected items in the arguments

@@ -19,18 +19,6 @@ public class JavaDateInstant implements DateInstant {
     int dayOfMonth;
 
     // =============================================================================================
-    // Factory methods
-    // ==
-
-    public static JavaDateInstant fromCalendar(Calendar cal) {
-        JavaDateInstant i =new JavaDateInstant();
-        i.year = cal.get(Calendar.YEAR);
-        i.monthOfYear = cal.get(Calendar.MONTH) - 1;
-        i.dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        return i;
-    }
-
-    // =============================================================================================
     // Lifecycle
     // ==
 
@@ -70,13 +58,13 @@ public class JavaDateInstant implements DateInstant {
         this.dayOfMonth = in.readInt();
     }
 
-    public static final Parcelable.Creator<DateInstant> CREATOR = new Parcelable.Creator<DateInstant>() {
-        public DateInstant createFromParcel(Parcel source) {
+    public static final Parcelable.Creator<JavaDateInstant> CREATOR = new Parcelable.Creator<JavaDateInstant>() {
+        public JavaDateInstant createFromParcel(Parcel source) {
             return new JavaDateInstant(source);
         }
 
-        public DateInstant[] newArray(int size) {
-            return new DateInstant[size];
+        public JavaDateInstant[] newArray(int size) {
+            return new JavaDateInstant[size];
         }
     };
 

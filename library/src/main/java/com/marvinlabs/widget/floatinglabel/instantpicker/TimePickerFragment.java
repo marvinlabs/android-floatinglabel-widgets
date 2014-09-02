@@ -60,6 +60,10 @@ public class TimePickerFragment<TimeInstantT extends TimeInstant> extends Dialog
         if (getParentFragment() instanceof ItemPickerListener) {
             addListener((InstantPickerListener<TimeInstantT>) getParentFragment());
         }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            addListener((InstantPickerListener<TimeInstantT>) getTargetFragment());
+        }
     }
 
     @Override
@@ -71,6 +75,10 @@ public class TimePickerFragment<TimeInstantT extends TimeInstant> extends Dialog
 
         if (getParentFragment() instanceof ItemPickerListener) {
             removeListener((InstantPickerListener<TimeInstantT>) getParentFragment());
+        }
+
+        if (getTargetFragment() instanceof ItemPickerListener) {
+            removeListener((InstantPickerListener<TimeInstantT>) getTargetFragment());
         }
 
         // Persist the new selected items in the arguments

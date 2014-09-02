@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.0@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.1@aar'
 }
 ```
     
@@ -102,6 +102,10 @@ public class MainWidgetsActivity extends FragmentActivity implements ItemPickerL
                         true,
                         source.getSelectedIndices(),
                         new ArrayList<String>((Collection<String>) source.getAvailableItems()));
+                
+                // Optionally, you can set a target fragment to get the notifications
+                // pickerFragment.setTargetFragment(MyFragment.this, 0);
+                
                 itemPicker.show(getSupportFragmentManager(), "ItemPicker");
             }
         });
@@ -163,6 +167,10 @@ public class MainWidgetsActivity extends FragmentActivity implements InstantPick
             @Override
             public void onShowInstantPickerDialog(FloatingLabelInstantPicker<TimeInstant> source) {
                 TimePickerFragment pickerFragment = TimePickerFragment.newInstance(source.getId(), source.getSelectedInstant());
+                
+                // Optionally, you can set a target fragment to get the notifications
+                // pickerFragment.setTargetFragment(MyFragment.this, 0);
+                
                 pickerFragment.show(getSupportFragmentManager(), "TimePicker");
             }
         });
@@ -219,6 +227,11 @@ get updates about our work, you can also:
 
 ## Change log
 
+### 1.2.1 (2014-09-)
+
+  - Correct the Parcelable implementation for JavaTimeInstant and JavaDateInstant classes
+  - Allow setting a target fragment to receive the events
+   
 ### 1.2.0 (2014-09-01)
 
   - Making the instant pickers fully use generics so that we can use our own Instant implementations
