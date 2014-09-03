@@ -227,6 +227,10 @@ get updates about our work, you can also:
 
 ## Change log
 
+### 1.2.3 (2014-09-)
+
+  - Fix a potential NullPointerException in FloatingLabelItemPicker#getSelectedItems
+
 ### 1.2.2 (2014-09-02)
 
   - Correct the Parcelable implementation for JavaTimeInstant and JavaDateInstant classes
