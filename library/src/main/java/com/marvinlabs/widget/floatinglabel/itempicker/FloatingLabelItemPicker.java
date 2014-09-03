@@ -190,6 +190,8 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
      * @return
      */
     public Collection<ItemT> getSelectedItems() {
+        if (availableItems==null) return new ArrayList<ItemT>(0);
+
         ArrayList<ItemT> items = new ArrayList<ItemT>(selectedIndices == null ? 0 : selectedIndices.length);
         for (int index : selectedIndices) {
             items.add(availableItems.get(index));
