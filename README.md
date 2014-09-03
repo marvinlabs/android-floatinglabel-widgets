@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.1@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.4@aar'
 }
 ```
     
@@ -227,7 +227,7 @@ get updates about our work, you can also:
 
 ## Change log
 
-### 1.2.3 (2014-09-03)
+### 1.2.4 (2014-09-03)
 
   - Fix a potential NullPointerException in FloatingLabelItemPicker#getSelectedItems
 

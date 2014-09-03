@@ -82,9 +82,9 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
         final int drawablePadding;
 
         if (attrs == null) {
-            drawableLeftId =0;
+            drawableLeftId = 0;
             drawableRightId = R.drawable.ic_picker;
-            drawablePadding=0;
+            drawablePadding = 0;
         } else {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
@@ -190,9 +190,11 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
      * @return
      */
     public Collection<ItemT> getSelectedItems() {
-        if (availableItems==null) return new ArrayList<ItemT>(0);
+        if (availableItems == null || selectedIndices == null || selectedIndices.length == 0) {
+            return new ArrayList<ItemT>(0);
+        }
 
-        ArrayList<ItemT> items = new ArrayList<ItemT>(selectedIndices == null ? 0 : selectedIndices.length);
+        ArrayList<ItemT> items = new ArrayList<ItemT>(selectedIndices.length);
         for (int index : selectedIndices) {
             items.add(availableItems.get(index));
         }
