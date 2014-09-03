@@ -7,8 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
-
 import java.util.ArrayList;
 
 public class TimePickerFragment<TimeInstantT extends TimeInstant> extends DialogFragment implements InstantPicker<TimeInstantT> {
