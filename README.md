@@ -227,7 +227,7 @@ get updates about our work, you can also:
 
 ## Change log
 
-### 1.2.3 (2014-09-)
+### 1.2.3 (2014-09-03)
 
   - Fix a potential NullPointerException in FloatingLabelItemPicker#getSelectedItems
 
