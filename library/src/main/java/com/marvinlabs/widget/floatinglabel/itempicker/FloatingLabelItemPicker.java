@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.marvinlabs.widget.floatinglabel.FloatingLabelWidgetBase;
+import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
@@ -22,7 +22,7 @@ import java.util.List;
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<TextView> {
+public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<TextView> {
 
     private static final String SAVE_STATE_KEY_SELECTED_INDICES = "saveStateSelectedIndices";
 
@@ -76,29 +76,8 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelWidgetBase<Text
     }
 
     @Override
-    protected void afterLayoutInflated(Context context, AttributeSet attrs, int defStyle) {
-        final int drawableRightId;
-        final int drawableLeftId;
-        final int drawablePadding;
-
-        if (attrs == null) {
-            drawableLeftId = 0;
-            drawableRightId = R.drawable.ic_picker;
-            drawablePadding = 0;
-        } else {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
-
-            drawableRightId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableRight, R.drawable.ic_picker);
-            drawableLeftId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableLeft, 0);
-            drawablePadding = a.getDimensionPixelSize(R.styleable.FloatingLabelWidgetBase_android_drawablePadding, 0);
-
-            a.recycle();
-        }
-
-        final TextView inputWidget = getInputWidget();
-
-        inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
-        inputWidget.setCompoundDrawablePadding(drawablePadding);
+    protected int getDefaultDrawableRightResId() {
+        return R.drawable.ic_picker;
     }
 
     @Override

@@ -1,14 +1,13 @@
 package com.marvinlabs.widget.floatinglabel.instantpicker;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.marvinlabs.widget.floatinglabel.FloatingLabelWidgetBase;
+import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
@@ -18,7 +17,7 @@ import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parcelable> extends FloatingLabelWidgetBase<TextView> {
+public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parcelable> extends FloatingLabelTextViewBase<TextView> {
 
     private static final String SAVE_STATE_KEY_INSTANT = "saveStateInstant";
 
@@ -65,34 +64,6 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
     protected int getDefaultLayoutId() {
         return R.layout.flw_widget_floating_label_instant_picker;
     }
-
-    @Override
-    protected void afterLayoutInflated(Context context, AttributeSet attrs, int defStyle) {
-        final int drawableRightId;
-        final int drawableLeftId;
-        final int drawablePadding;
-
-        if (attrs == null) {
-            drawableLeftId = 0;
-            drawableRightId = getDefaultIconResId();
-            drawablePadding = 0;
-        } else {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
-
-            drawableRightId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableRight, getDefaultIconResId());
-            drawableLeftId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableLeft, 0);
-            drawablePadding = a.getDimensionPixelSize(R.styleable.FloatingLabelWidgetBase_android_drawablePadding, 0);
-
-            a.recycle();
-        }
-
-        final TextView inputWidget = getInputWidget();
-
-        inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
-        inputWidget.setCompoundDrawablePadding(drawablePadding);
-    }
-
-    protected abstract int getDefaultIconResId();
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {

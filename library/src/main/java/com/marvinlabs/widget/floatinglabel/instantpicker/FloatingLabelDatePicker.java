@@ -36,7 +36,7 @@ public class FloatingLabelDatePicker<DateInstantT extends DateInstant> extends F
 
 
     @Override
-    protected int getDefaultIconResId() {
+    protected int getDefaultDrawableRightResId() {
         return R.drawable.ic_datepicker;
     }
 

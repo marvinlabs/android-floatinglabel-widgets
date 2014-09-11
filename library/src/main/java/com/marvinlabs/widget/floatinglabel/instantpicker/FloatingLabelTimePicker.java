@@ -36,7 +36,7 @@ public class FloatingLabelTimePicker<TimeInstantT extends TimeInstant> extends F
 
 
     @Override
-    protected int getDefaultIconResId() {
+    protected int getDefaultDrawableRightResId() {
         return R.drawable.ic_timepicker;
     }
 

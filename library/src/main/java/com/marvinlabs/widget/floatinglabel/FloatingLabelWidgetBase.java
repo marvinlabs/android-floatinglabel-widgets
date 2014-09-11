@@ -498,20 +498,20 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         // Load custom attributes
         final int layoutId;
         final CharSequence floatLabelText;
-        final int floatLabelColor;
+        final int floatLabelTextColor;
         final float floatLabelTextSize;
 
         if (attrs == null) {
             layoutId = getDefaultLayoutId();
             floatLabelText = null;
-            floatLabelColor = 0x66000000;
+            floatLabelTextColor = 0x66000000;
             floatLabelTextSize = getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize);
         } else {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
-            floatLabelColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
+            floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 
             a.recycle();
@@ -524,7 +524,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
         setLabelAnimator(getDefaultLabelAnimator());
         setLabelText(floatLabelText);
-        setLabelColor(floatLabelColor);
+        setLabelColor(floatLabelTextColor);
         setLabelTextSize(floatLabelTextSize);
 
         afterLayoutInflated(context, attrs, defStyle);
