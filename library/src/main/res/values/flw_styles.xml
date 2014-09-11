@@ -10,6 +10,9 @@
     <style name="FloatingLabelWidget.InstantPicker">
     </style>
 
+    <style name="FloatingLabelWidget.ItemChooser">
+    </style>
+
     <style name="FloatingLabelWidget.Label" parent="@android:style/Widget.Holo.TextView">
         <item name="android:lines">1</item>
     </style>
@@ -27,6 +30,14 @@
     <style name="FloatingLabelWidget.InputWidget.Picker" parent="@android:style/Widget.Holo.TextView">
         <item name="android:background">@drawable/bg_edittext</item>
         <item name="android:drawableRight">@drawable/ic_picker</item>
+    </style>
+
+    <style name="FloatingLabelWidget.Label.Chooser">
+    </style>
+
+    <style name="FloatingLabelWidget.InputWidget.Chooser" parent="@android:style/Widget.Holo.TextView">
+        <item name="android:background">@drawable/bg_edittext</item>
+        <item name="android:drawableRight">@drawable/ic_chooser</item>
     </style>
 
 </resources>

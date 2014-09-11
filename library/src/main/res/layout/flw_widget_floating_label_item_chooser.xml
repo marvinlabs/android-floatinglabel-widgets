@@ -4,14 +4,14 @@
 
     <TextView
         android:id="@id/flw_floating_label"
-        style="@style/FloatingLabelWidget.Label.Picker"
+        style="@style/FloatingLabelWidget.Label.Chooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="This is the label"/>
 
     <TextView
         android:id="@id/flw_input_widget"
-        style="@style/FloatingLabelWidget.InputWidget.Picker"
+        style="@style/FloatingLabelWidget.InputWidget.Chooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </merge>
