@@ -3,6 +3,7 @@
 
     <string name="app_name">Floating Label Widgets</string>
     <string name="title_activity_main_widgets">Floating Label Widgets</string>
+    <string name="title_activity_chooser">Choose a product</string>
     <string name="action_settings">Settings</string>
 
 </resources>

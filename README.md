@@ -185,6 +185,21 @@ public class MainWidgetsActivity extends FragmentActivity implements InstantPick
 }
 ```
 
+#### Item choosers
+
+To include a floating label item chooser in your layout, simply use the following XML code snippet:
+
+```xml
+<!-- A widget that shows the result of item selection -->
+<com.marvinlabs.widget.floatinglabel.itemchooser.FloatingLabelItemChooser
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flw_labelText="Choose a product" />
+```
+
+This kind of widget lets you choose an item the way you want. The demo application shows how to 
+implement item choosing by launching an activity and getting the result back.
+
 ## Customisable components
 
 This library has lots of interfaces and helper classes to help you either extend it and/or change
@@ -226,6 +241,11 @@ get updates about our work, you can also:
 * [Follow us on Facebook](http://www.facebook.com/studio.marvinlabs)
 
 ## Change log
+
+### 1.3.0 (2014-09-11)
+
+  - Allow setting the input widget text size and color from XML
+  - Added a more general purpose item chooser widget to let you handle everything
 
 ### 1.2.4 (2014-09-03)
 

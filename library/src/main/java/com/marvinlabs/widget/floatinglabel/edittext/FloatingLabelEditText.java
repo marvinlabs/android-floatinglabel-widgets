@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.marvinlabs.widget.floatinglabel.FloatingLabelWidgetBase;
+import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
@@ -23,7 +23,7 @@ import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public class FloatingLabelEditText extends FloatingLabelWidgetBase<EditText> {
+public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
 
     // =============================================================================================
     // Lifecycle
@@ -47,29 +47,15 @@ public class FloatingLabelEditText extends FloatingLabelWidgetBase<EditText> {
 
     @Override
     protected void afterLayoutInflated(Context context, AttributeSet attrs, int defStyle) {
+        super.afterLayoutInflated(context, attrs, defStyle);
+
         final int inputType;
-        final int drawableRightId;
-        final int drawableLeftId;
-        final int drawablePadding;
 
         if (attrs == null) {
             inputType = InputType.TYPE_CLASS_TEXT;
-            drawableRightId = 0;
-            drawableLeftId = 0;
-            drawablePadding = 0;
         } else {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelEditText, defStyle, 0);
-
             inputType = a.getInt(R.styleable.FloatingLabelEditText_android_inputType, InputType.TYPE_CLASS_TEXT);
-
-            a.recycle();
-
-            a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
-
-            drawableRightId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableRight, 0);
-            drawableLeftId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_drawableLeft, 0);
-            drawablePadding = a.getDimensionPixelSize(R.styleable.FloatingLabelWidgetBase_android_drawablePadding, 0);
-
             a.recycle();
         }
 
@@ -77,8 +63,6 @@ public class FloatingLabelEditText extends FloatingLabelWidgetBase<EditText> {
 
         inputWidget.setInputType(inputType);
         inputWidget.addTextChangedListener(new EditTextWatcher());
-        inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
-        inputWidget.setCompoundDrawablePadding(drawablePadding);
     }
 
     @Override

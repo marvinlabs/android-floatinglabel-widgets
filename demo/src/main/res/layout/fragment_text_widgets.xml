@@ -41,5 +41,16 @@
             android:inputType="textMultiLine"
             app:flw_labelText="Multiline input" />
 
+        <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
+            android:id="@+id/edit_text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_labelText="Custom text sizes &amp; colors"
+            app:flw_labelTextColor="@android:color/holo_blue_dark"
+            app:flw_inputWidgetTextColor="@android:color/holo_green_dark"
+            app:flw_labelTextSize="18sp"
+            app:flw_inputWidgetTextSize="26sp"/>
+
     </LinearLayout>
 </ScrollView>

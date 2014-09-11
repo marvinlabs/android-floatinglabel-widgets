@@ -3,19 +3,21 @@
 
     <declare-styleable name="FloatingLabelWidgetBase">
         <attr name="android:layout"/>
-        <attr name="android:drawableRight"/>
-        <attr name="android:drawableLeft"/>
-        <attr name="android:drawablePadding"/>
         <attr name="flw_labelText" format="string"/>
         <attr name="flw_labelTextColor" format="color"/>
         <attr name="flw_labelTextSize" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="FloatingLabelEditText">
-        <attr name="android:inputType"/>
+    <declare-styleable name="FloatingLabelTextViewBase">
+        <attr name="android:drawableRight"/>
+        <attr name="android:drawableLeft"/>
+        <attr name="android:drawablePadding"/>
+        <attr name="flw_inputWidgetTextColor" format="color"/>
+        <attr name="flw_inputWidgetTextSize" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="FloatingLabelItemPicker">
+    <declare-styleable name="FloatingLabelEditText">
+        <attr name="android:inputType"/>
     </declare-styleable>
 
 </resources>

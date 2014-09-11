@@ -1,4 +1,4 @@
-package com.marvinlabs.widget.floatinglabel.instantpicker;
+package com.marvinlabs.widget.floatinglabel.itemchooser;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,48 +11,49 @@ import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
+import com.marvinlabs.widget.floatinglabel.itempicker.ItemPrinter;
 
 /**
- * A widget to pick one or more items from a list
+ * A widget to choose and hold an item
  * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
-public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parcelable> extends FloatingLabelTextViewBase<TextView> {
+public class FloatingLabelItemChooser<ItemT extends Parcelable> extends FloatingLabelTextViewBase<TextView> {
 
-    private static final String SAVE_STATE_KEY_INSTANT = "saveStateInstant";
+    private static final String SAVE_STATE_KEY_SELECTED_ITEM = "saveStateSelectedItem";
 
-    public interface OnWidgetEventListener<InstantT extends Instant & Parcelable> {
-        public void onShowInstantPickerDialog(FloatingLabelInstantPicker<InstantT> source);
+    public interface OnWidgetEventListener<ItemT extends Parcelable> {
+        public void onShowItemChooser(FloatingLabelItemChooser<ItemT> source);
     }
 
     /**
-     * The selected instant
+     * The selected items indices within the available items
      */
-    protected InstantT selectedInstant;
+    protected ItemT selectedItem;
 
     /**
-     * Something to turn our instant into a string
+     * Something to turn our items into strings
      */
-    protected InstantPrinter instantPrinter;
+    protected ItemPrinter<ItemT> itemPrinter;
 
     /**
      * The listener to notify when this widget has something to say
      */
-    protected OnWidgetEventListener<InstantT> widgetListener;
+    protected OnWidgetEventListener<ItemT> widgetListener;
 
     // =============================================================================================
     // Lifecycle
     // ==
 
-    public FloatingLabelInstantPicker(Context context) {
+    public FloatingLabelItemChooser(Context context) {
         super(context);
     }
 
-    public FloatingLabelInstantPicker(Context context, AttributeSet attrs) {
+    public FloatingLabelItemChooser(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FloatingLabelInstantPicker(Context context, AttributeSet attrs, int defStyle) {
+    public FloatingLabelItemChooser(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -62,7 +63,12 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
 
     @Override
     protected int getDefaultLayoutId() {
-        return R.layout.flw_widget_floating_label_instant_picker;
+        return R.layout.flw_widget_floating_label_item_chooser;
+    }
+
+    @Override
+    protected int getDefaultDrawableRightResId() {
+        return R.drawable.ic_chooser;
     }
 
     @Override
@@ -85,24 +91,24 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
 
     @Override
     protected void putAdditionalInstanceState(Bundle saveState) {
-        if (selectedInstant != null) {
-            saveState.putParcelable(SAVE_STATE_KEY_INSTANT, selectedInstant);
+        if (selectedItem != null) {
+            saveState.putParcelable(SAVE_STATE_KEY_SELECTED_ITEM, selectedItem);
         }
     }
 
     @Override
     protected void restoreAdditionalInstanceState(Bundle savedState) {
-        selectedInstant = savedState.getParcelable(SAVE_STATE_KEY_INSTANT);
+        selectedItem = savedState.getParcelable(SAVE_STATE_KEY_SELECTED_ITEM);
     }
 
     @Override
     protected void setInitialWidgetState() {
-        if (selectedInstant == null) {
+        if (selectedItem == null) {
             setLabelAnchored(true);
             getInputWidget().setText("");
         } else {
             setLabelAnchored(false);
-            getInputWidget().setText(getInstantPrinter().print(getSelectedInstant()));
+            getInputWidget().setText(getItemPrinter().print(getSelectedItem()));
         }
     }
 
@@ -112,37 +118,37 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
     }
 
     // =============================================================================================
-    // Instant picking
+    // Item choosing
     // ==
 
     /**
-     * Set the instant currently selected
+     * Set the item currently selected
      *
-     * @param i The new selected instant
+     * @param item The item selected by the user
      */
-    public void setSelectedInstant(InstantT i) {
-        this.selectedInstant = i;
-        onSelectedInstantChanged();
+    public void setSelectedItem(ItemT item) {
+        selectedItem = item;
+        onSelectedItemChanged();
     }
 
     /**
-     * Get the selected instant
+     * Get the item currently selected
      *
-     * @return the instant (date or time)
+     * @return The item selected by the user
      */
-    public InstantT getSelectedInstant() {
-        return selectedInstant;
+    public ItemT getSelectedItem() {
+        return selectedItem;
     }
 
     /**
      * Refreshes the widget state when the selection changes
      */
-    protected void onSelectedInstantChanged() {
-        if (selectedInstant == null) {
-            getInputWidget().setText("");
+    protected void onSelectedItemChanged() {
+        if (selectedItem == null) {
             anchorLabel();
+            getInputWidget().setText("");
         } else {
-            getInputWidget().setText(getInstantPrinter().print(getSelectedInstant()));
+            getInputWidget().setText(getItemPrinter().print(getSelectedItem()));
             floatLabel();
         }
     }
@@ -151,33 +157,31 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
      * Show the item picker
      */
     protected void requestShowPicker() {
-        if (widgetListener != null) widgetListener.onShowInstantPickerDialog(this);
+        if (widgetListener != null) widgetListener.onShowItemChooser(this);
     }
 
     // =============================================================================================
     // Other methods
     // ==
 
-    public OnWidgetEventListener<InstantT> getWidgetListener() {
+    public OnWidgetEventListener<ItemT> getWidgetListener() {
         return widgetListener;
     }
 
-    public void setWidgetListener(OnWidgetEventListener<InstantT> widgetListener) {
+    public void setWidgetListener(OnWidgetEventListener<ItemT> widgetListener) {
         this.widgetListener = widgetListener;
     }
 
-    public void setInstantPrinter(InstantPrinter<InstantT> instantPrinter) {
-        this.instantPrinter = instantPrinter;
+    public void setItemPrinter(ItemPrinter<ItemT> itemPrinter) {
+        this.itemPrinter = itemPrinter;
     }
 
-    public InstantPrinter<InstantT> getInstantPrinter() {
-        if (instantPrinter == null) {
-            instantPrinter = getDefaultInstantPrinter();
+    public ItemPrinter<ItemT> getItemPrinter() {
+        if (itemPrinter == null) {
+            itemPrinter = new ItemPrinter.ToStringItemPrinter<ItemT>();
         }
-        return instantPrinter;
+        return itemPrinter;
     }
-
-    protected abstract InstantPrinter<InstantT> getDefaultInstantPrinter();
 
     /**
      * Listen to click events on the input widget
