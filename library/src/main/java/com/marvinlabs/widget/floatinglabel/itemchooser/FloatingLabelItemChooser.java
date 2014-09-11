@@ -11,7 +11,6 @@ import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
 import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
-import com.marvinlabs.widget.floatinglabel.itempicker.ItemPrinter;
 
 /**
  * A widget to choose and hold an item

@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.3.1@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.3.2@aar'
 }
 ```
     
@@ -242,7 +242,7 @@ get updates about our work, you can also:
 
 ## Change log
 
-### 1.3.1 (2014-09-11)
+### 1.3.2 (2014-09-11)
 
   - Allow setting the input widget text size and color from XML
   - Added a more general purpose item chooser widget to let you handle everything
