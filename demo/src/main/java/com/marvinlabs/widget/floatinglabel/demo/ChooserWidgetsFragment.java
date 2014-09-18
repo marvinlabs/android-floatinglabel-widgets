@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.marvinlabs.widget.floatinglabel.demo.chooser.ItemChooserActivity;
 import com.marvinlabs.widget.floatinglabel.demo.chooser.Product;
@@ -15,7 +16,7 @@ import com.marvinlabs.widget.floatinglabel.itemchooser.FloatingLabelItemChooser;
 import com.marvinlabs.widget.slideshow.demo.R;
 
 
-public class ChooserWidgetsFragment extends Fragment {
+public class ChooserWidgetsFragment extends Fragment implements FloatingLabelItemChooser.OnItemChooserEventListener<Product> {
 
     public static final int REQUEST_CHOOSE_PRODUCT = 0x1234;
 
@@ -33,6 +34,7 @@ public class ChooserWidgetsFragment extends Fragment {
 
         // Choosers
         chooser1 = (FloatingLabelItemChooser<Product>) root.findViewById(R.id.chooser1);
+        chooser1.setItemChooserListener(this);
         chooser1.setWidgetListener(new FloatingLabelItemChooser.OnWidgetEventListener<Product>() {
             @Override
             public void onShowItemChooser(FloatingLabelItemChooser<Product> source) {
@@ -54,5 +56,12 @@ public class ChooserWidgetsFragment extends Fragment {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    // Implementation of the OnItemPickerEventListener interface
+
+    @Override
+    public void onSelectionChanged(FloatingLabelItemChooser<Product> source, Product selectedItem) {
+        Toast.makeText(getActivity(), source.getItemPrinter().print(selectedItem), Toast.LENGTH_SHORT).show();
     }
 }

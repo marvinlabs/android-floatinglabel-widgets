@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker;
 import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
@@ -14,9 +15,10 @@ import com.marvinlabs.widget.slideshow.demo.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 
-public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<String> {
+public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<String>, FloatingLabelItemPicker.OnItemPickerEventListener<String> {
 
     FloatingLabelItemPicker<String> picker1;
     FloatingLabelItemPicker<String> picker2;
@@ -33,6 +35,7 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
 
         // Spinners
         picker1 = (FloatingLabelItemPicker<String>) root.findViewById(R.id.picker1);
+        picker1.setItemPickerListener(this);
         picker1.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 1.1", "Item 1.2", "Item 1.3", "Item 1.4", "Item 1.5", "Item 1.6", "Item 1.7", "Item 1.8")));
         picker1.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
@@ -50,6 +53,7 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
         });
 
         picker2 = (FloatingLabelItemPicker<String>) root.findViewById(R.id.picker2);
+        picker2.setItemPickerListener(this);
         picker2.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 2.1", "Item 2.2", "Item 2.3", "Item 2.4")));
         picker2.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
             @Override
@@ -69,6 +73,13 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
         return root;
     }
 
+    // Implementation of the OnItemPickerEventListener interface
+
+    @Override
+    public void onSelectionChanged(FloatingLabelItemPicker<String> source, Collection<String> selectedItems) {
+        Toast.makeText(getActivity(), source.getItemPrinter().printCollection(selectedItems), Toast.LENGTH_SHORT).show();
+    }
+
     // Implementation of the InstantPickerListener interface
 
     @Override
@@ -77,9 +88,9 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
 
     @Override
     public void onItemsSelected(int pickerId, int[] selectedIndices) {
-        if (pickerId==R.id.picker1) {
+        if (pickerId == R.id.picker1) {
             picker1.setSelectedIndices(selectedIndices);
-        } else if (pickerId==R.id.picker2) {
+        } else if (pickerId == R.id.picker2) {
             picker2.setSelectedIndices(selectedIndices);
         }
     }

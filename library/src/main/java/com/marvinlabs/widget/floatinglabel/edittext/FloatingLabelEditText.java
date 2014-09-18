@@ -25,6 +25,15 @@ import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
  */
 public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
 
+    public interface EditTextListener {
+        public void onTextChanged(FloatingLabelEditText source, String text);
+    }
+
+    /**
+     * The listener to notify when the selection changes
+     */
+    protected EditTextListener editTextListener;
+
     // =============================================================================================
     // Lifecycle
     // ==
@@ -190,6 +199,29 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
     // Other methods
     // ==
 
+    public EditTextListener getEditTextListener() {
+        return editTextListener;
+    }
+
+    public void setEditTextListener(EditTextListener editTextListener) {
+        this.editTextListener = editTextListener;
+    }
+
+    /**
+     * Called when the text within the input widget is updated
+     *
+     * @param s The new text
+     */
+    protected void onTextChanged(String s) {
+        if (s.length() == 0) {
+            anchorLabel();
+        } else {
+            floatLabel();
+        }
+
+        if (editTextListener != null) editTextListener.onTextChanged(this, s);
+    }
+
     /**
      * @return true if the input widget is empty
      */
@@ -204,11 +236,7 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
     private class EditTextWatcher implements TextWatcher {
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.toString().length() == 0) {
-                anchorLabel();
-            } else {
-                floatLabel();
-            }
+            FloatingLabelEditText.this.onTextChanged(s.toString());
         }
 
         @Override
@@ -218,7 +246,6 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Ignored
         }
     }
 }

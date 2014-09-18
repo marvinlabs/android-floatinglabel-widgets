@@ -1,7 +1,6 @@
 package com.marvinlabs.widget.floatinglabel.itempicker;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -30,6 +29,10 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
         public void onShowItemPickerDialog(FloatingLabelItemPicker<ItemT> source);
     }
 
+    public interface OnItemPickerEventListener<ItemT> {
+        public void onSelectionChanged(FloatingLabelItemPicker<ItemT> source, Collection<ItemT> selectedItems);
+    }
+
     /**
      * The available items
      */
@@ -49,6 +52,11 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
      * The listener to notify when this widget has something to say
      */
     protected OnWidgetEventListener<ItemT> widgetListener;
+
+    /**
+     * The listener to notify when the selection changes
+     */
+    protected OnItemPickerEventListener<ItemT> itemPickerListener;
 
     // =============================================================================================
     // Lifecycle
@@ -184,13 +192,16 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
      * Refreshes the widget state when the selection changes
      */
     protected void onSelectedItemsChanged() {
-        if (selectedIndices == null || selectedIndices.length == 0) {
+        final Collection<ItemT> selectedItems = getSelectedItems();
+        if (selectedItems.isEmpty()) {
             anchorLabel();
             getInputWidget().setText("");
         } else {
-            getInputWidget().setText(getItemPrinter().printCollection(getSelectedItems()));
+            getInputWidget().setText(getItemPrinter().printCollection(selectedItems));
             floatLabel();
         }
+
+        if (itemPickerListener!=null) itemPickerListener.onSelectionChanged(this, selectedItems);
     }
 
     /**
@@ -203,6 +214,14 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
     // =============================================================================================
     // Other methods
     // ==
+
+    public OnItemPickerEventListener<ItemT> getItemPickerListener() {
+        return itemPickerListener;
+    }
+
+    public void setItemPickerListener(OnItemPickerEventListener<ItemT> itemPickerListener) {
+        this.itemPickerListener = itemPickerListener;
+    }
 
     public OnWidgetEventListener<ItemT> getWidgetListener() {
         return widgetListener;
