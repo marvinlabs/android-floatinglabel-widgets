@@ -25,6 +25,10 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
         public void onShowInstantPickerDialog(FloatingLabelInstantPicker<InstantT> source);
     }
 
+    public interface OnInstantPickerEventListener<InstantT extends Instant & Parcelable> {
+        public void onInstantChanged(FloatingLabelInstantPicker<InstantT> source, InstantT instant);
+    }
+
     /**
      * The selected instant
      */
@@ -39,6 +43,11 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
      * The listener to notify when this widget has something to say
      */
     protected OnWidgetEventListener<InstantT> widgetListener;
+
+    /**
+     * The listener to notify when the selected instant changes
+     */
+    protected OnInstantPickerEventListener<InstantT> instantPickerListener;
 
     // =============================================================================================
     // Lifecycle
@@ -142,9 +151,11 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
             getInputWidget().setText("");
             anchorLabel();
         } else {
-            getInputWidget().setText(getInstantPrinter().print(getSelectedInstant()));
+            getInputWidget().setText(getInstantPrinter().print(selectedInstant));
             floatLabel();
         }
+
+        if (instantPickerListener!=null) instantPickerListener.onInstantChanged(this, selectedInstant);
     }
 
     /**
@@ -157,6 +168,14 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
     // =============================================================================================
     // Other methods
     // ==
+
+    public OnInstantPickerEventListener<InstantT> getInstantPickerListener() {
+        return instantPickerListener;
+    }
+
+    public void setInstantPickerListener(OnInstantPickerEventListener<InstantT> instantPickerListener) {
+        this.instantPickerListener = instantPickerListener;
+    }
 
     public OnWidgetEventListener<InstantT> getWidgetListener() {
         return widgetListener;

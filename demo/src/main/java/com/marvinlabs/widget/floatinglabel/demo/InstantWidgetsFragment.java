@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.marvinlabs.widget.floatinglabel.instantpicker.DatePickerFragment;
 import com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker;
@@ -20,7 +21,7 @@ import com.marvinlabs.widget.floatinglabel.instantpicker.TimePickerFragment;
 import com.marvinlabs.widget.slideshow.demo.R;
 
 
-public class InstantWidgetsFragment extends Fragment implements InstantPickerListener {
+public class InstantWidgetsFragment extends Fragment implements InstantPickerListener, FloatingLabelInstantPicker.OnInstantPickerEventListener {
 
     FloatingLabelTimePicker<JavaTimeInstant> timePicker;
     FloatingLabelDatePicker<JavaDateInstant> datePicker;
@@ -37,6 +38,7 @@ public class InstantWidgetsFragment extends Fragment implements InstantPickerLis
         // Instant pickers
         datePicker = (FloatingLabelDatePicker<JavaDateInstant>) root.findViewById(R.id.date_picker);
         datePicker.setSelectedInstant(new JavaDateInstant());
+        datePicker.setInstantPickerListener(this);
         datePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<JavaDateInstant>() {
             @Override
             public void onShowInstantPickerDialog(FloatingLabelInstantPicker<JavaDateInstant> source) {
@@ -48,6 +50,7 @@ public class InstantWidgetsFragment extends Fragment implements InstantPickerLis
 
         timePicker = (FloatingLabelTimePicker<JavaTimeInstant>) root.findViewById(R.id.time_picker);
         timePicker.setSelectedInstant(new JavaTimeInstant());
+        timePicker.setInstantPickerListener(this);
         timePicker.setWidgetListener(new FloatingLabelInstantPicker.OnWidgetEventListener<JavaTimeInstant>() {
             @Override
             public void onShowInstantPickerDialog(FloatingLabelInstantPicker<JavaTimeInstant> source) {
@@ -58,6 +61,13 @@ public class InstantWidgetsFragment extends Fragment implements InstantPickerLis
         });
 
         return root;
+    }
+
+    // Implementation of the OnItemPickerEventListener interface
+
+    @Override
+    public void onInstantChanged(FloatingLabelInstantPicker source, Instant instant) {
+        Toast.makeText(getActivity(), source.getInstantPrinter().print(instant), Toast.LENGTH_SHORT).show();
     }
 
     // Implementation of the InstantPickerListener interface

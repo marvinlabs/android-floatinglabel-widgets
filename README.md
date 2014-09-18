@@ -242,6 +242,11 @@ get updates about our work, you can also:
 
 ## Change log
 
+### 1.4.0 (2014-09-18)
+
+  - Added listener interfaces for notifications when the item/instant/text changes within one of the
+    widgets
+
 ### 1.3.2 (2014-09-11)
 
   - Allow setting the input widget text size and color from XML

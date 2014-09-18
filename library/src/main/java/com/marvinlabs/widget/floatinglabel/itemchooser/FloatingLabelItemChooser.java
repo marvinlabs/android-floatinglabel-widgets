@@ -25,6 +25,10 @@ public class FloatingLabelItemChooser<ItemT extends Parcelable> extends Floating
         public void onShowItemChooser(FloatingLabelItemChooser<ItemT> source);
     }
 
+    public interface OnItemChooserEventListener<ItemT extends Parcelable> {
+        public void onSelectionChanged(FloatingLabelItemChooser<ItemT> source, ItemT selectedItem);
+    }
+
     /**
      * The selected items indices within the available items
      */
@@ -39,6 +43,11 @@ public class FloatingLabelItemChooser<ItemT extends Parcelable> extends Floating
      * The listener to notify when this widget has something to say
      */
     protected OnWidgetEventListener<ItemT> widgetListener;
+
+    /**
+     * The listener to notify when the selection changes
+     */
+    protected OnItemChooserEventListener<ItemT> itemChooserListener;
 
     // =============================================================================================
     // Lifecycle
@@ -147,9 +156,11 @@ public class FloatingLabelItemChooser<ItemT extends Parcelable> extends Floating
             anchorLabel();
             getInputWidget().setText("");
         } else {
-            getInputWidget().setText(getItemPrinter().print(getSelectedItem()));
+            getInputWidget().setText(getItemPrinter().print(selectedItem));
             floatLabel();
         }
+
+        if (itemChooserListener != null) itemChooserListener.onSelectionChanged(this, selectedItem);
     }
 
     /**
@@ -162,6 +173,14 @@ public class FloatingLabelItemChooser<ItemT extends Parcelable> extends Floating
     // =============================================================================================
     // Other methods
     // ==
+
+    public OnItemChooserEventListener<ItemT> getItemChooserListener() {
+        return itemChooserListener;
+    }
+
+    public void setItemChooserListener(OnItemChooserEventListener<ItemT> itemChooserListener) {
+        this.itemChooserListener = itemChooserListener;
+    }
 
     public OnWidgetEventListener<ItemT> getWidgetListener() {
         return widgetListener;
