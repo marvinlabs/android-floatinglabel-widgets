@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@id/flw_floating_label"
+        style="@style/FloatingLabelWidget.Label.AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="This is the label"/>
+
+    <AutoCompleteTextView
+        android:id="@id/flw_input_widget"
+        style="@style/FloatingLabelWidget.InputWidget.AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Your input value here"/>
+</merge>
