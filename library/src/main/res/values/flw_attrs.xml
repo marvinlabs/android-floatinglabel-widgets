@@ -20,4 +20,12 @@
         <attr name="android:inputType"/>
     </declare-styleable>
 
+    <declare-styleable name="FloatingLabelAutoCompleteTextView">
+        <attr name="android:dropDownHeight"/>
+        <attr name="android:dropDownWidth"/>
+        <attr name="android:popupBackground"/>
+        <attr name="android:completionThreshold"/>
+        <attr name="android:completionHint"/>
+    </declare-styleable>
+
 </resources>

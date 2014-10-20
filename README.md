@@ -242,6 +242,11 @@ get updates about our work, you can also:
 
 ## Change log
 
+### 1.5.0 (2014-10-20)
+
+  - Added a widget based on the AutoCompleteTextView
+  - Fixed a bug on the font size not properly set (thanks to PR #12 from Joosun)
+
 ### 1.4.0 (2014-09-18)
 
   - Added listener interfaces for notifications when the item/instant/text changes within one of the
