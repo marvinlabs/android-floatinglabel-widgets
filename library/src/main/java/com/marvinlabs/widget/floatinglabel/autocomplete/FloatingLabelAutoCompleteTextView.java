@@ -23,7 +23,7 @@ import com.marvinlabs.widget.floatinglabel.anim.TextViewLabelAnimator;
 /**
  * An implementation of the floating label input widget for Android's EditText
  * <p/>
- * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
+ * Created by Vincent Mimoun-Prat @ MarvinLabs, 20/10/2014.
  */
 public class FloatingLabelAutoCompleteTextView extends FloatingLabelTextViewBase<AutoCompleteTextView> {
 

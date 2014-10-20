@@ -5,14 +5,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.marvinlabs.widget.floatinglabel.R;
+
 import java.util.ArrayList;
 
 /**
  * A helper base adapter to quickly implement the autocomplete view for long running operations
+ * <p/>
+ * Created by Vincent Mimoun-Prat @ MarvinLabs, 20/10/2014.
  */
 public abstract class AsyncAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
 
     private ArrayList<String> resultList;
+
+    public AsyncAutoCompleteAdapter(Context context) {
+        this(context, R.layout.flw_widget_dropdown_item);
+    }
 
     public AsyncAutoCompleteAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);

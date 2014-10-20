@@ -39,7 +39,7 @@ public class AutoCompleteWidgetsFragment extends Fragment implements FloatingLab
         textView1.setEditTextListener(this);
 
         textView2 = (FloatingLabelAutoCompleteTextView) root.findViewById(R.id.edit_text2);
-        textView2.setInputWidgetAdapter(new CountriesAutoCompleteAdapter(getActivity(), R.layout.flw_widget_dropdown_item));
+        textView2.setInputWidgetAdapter(new CountriesAutoCompleteAdapter(getActivity()));
         textView2.setEditTextListener(this);
 
         return root;
@@ -56,8 +56,8 @@ public class AutoCompleteWidgetsFragment extends Fragment implements FloatingLab
      */
     static class CountriesAutoCompleteAdapter extends AsyncAutoCompleteAdapter {
 
-        public CountriesAutoCompleteAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
+        public CountriesAutoCompleteAdapter(Context context) {
+            super(context);
         }
 
         @Override

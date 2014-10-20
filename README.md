@@ -25,7 +25,7 @@ following line to your dependencies block:
 
 ```groovy
 dependencies {
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.3.2@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.5.0@aar'
 }
 ```
     
@@ -43,7 +43,6 @@ To include a floating label EditText in your layout, simply use the following XM
 <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp"
     app:flw_labelText="Simple text input" />
 
 <!-- An edit text with a custom input type and an icon on the left -->
@@ -54,6 +53,40 @@ To include a floating label EditText in your layout, simply use the following XM
     android:drawablePadding="10dp"
     android:inputType="textPassword"
     app:flw_labelText="Password input" />
+```
+
+#### AutoCompleteTextView
+
+To include a floating label AutoCompleteTextView in your layout, simply use the following XML code 
+snippet:
+
+```xml
+<com.marvinlabs.widget.floatinglabel.autocomplete.FloatingLabelAutoCompleteTextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flw_labelText="Simple text input" />
+```
+
+Then you simply need to give it an adapter to fetch the filtered data (we use a helper base class
+for the adapter but any kind of adapter working with standard AutoCompleteTextView should do):
+
+```java
+    public void prepareView {
+        myWidget.setInputWidgetAdapter(new CountriesAutoCompleteAdapter(this));
+    }
+
+    static class CountriesAutoCompleteAdapter extends AsyncAutoCompleteAdapter {
+
+        public CountriesAutoCompleteAdapter(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected ArrayList<String> asyncGetResults(CharSequence constraint) {
+            ArrayList<String> countries = yourFavouriteApi.getCountriesMatchingString(constraint);
+            return countries;
+        }
+    }
 ```
 
 #### ItemPicker
