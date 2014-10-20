@@ -22,5 +22,12 @@
             android:layout_marginBottom="15dp"
             app:flw_labelText="Simple text input" />
 
+        <com.marvinlabs.widget.floatinglabel.autocomplete.FloatingLabelAutoCompleteTextView
+            android:id="@+id/edit_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_labelText="Type your country" />
+
     </LinearLayout>
 </ScrollView>
