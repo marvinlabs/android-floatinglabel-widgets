@@ -3,6 +3,7 @@ package com.marvinlabs.widget.floatinglabel;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 /**
@@ -57,7 +58,7 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
         inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
         inputWidget.setCompoundDrawablePadding(drawablePadding);
         inputWidget.setTextColor(inputWidgetTextColor);
-        inputWidget.setTextSize(inputWidgetTextSize);
+        inputWidget.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputWidgetTextSize);
     }
 
     protected int getDefaultDrawableLeftResId() {

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -525,7 +526,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         setLabelAnimator(getDefaultLabelAnimator());
         setLabelText(floatLabelText);
         setLabelColor(floatLabelTextColor);
-        setLabelTextSize(floatLabelTextSize);
+        setLabelTextSize(TypedValue.COMPLEX_UNIT_PX, floatLabelTextSize);
 
         afterLayoutInflated(context, attrs, defStyle);
 
