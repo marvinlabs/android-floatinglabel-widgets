@@ -373,6 +373,10 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         floatingLabel.setTextColor(colors);
     }
 
+    public void setLabelTextAppearance(Context context, int resid) {
+        floatingLabel.setTextAppearance(context, resid);
+    }
+
     /**
      * Delegate method for the floating label TextView
      */
@@ -499,12 +503,14 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         // Load custom attributes
         final int layoutId;
         final CharSequence floatLabelText;
+        final int floatLabelTextAppearance;
         final int floatLabelTextColor;
         final float floatLabelTextSize;
 
         if (attrs == null) {
             layoutId = getDefaultLayoutId();
             floatLabelText = null;
+            floatLabelTextAppearance = -1;
             floatLabelTextColor = 0x66000000;
             floatLabelTextSize = getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize);
         } else {
@@ -513,6 +519,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
             floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
+            floatLabelTextAppearance = a.getResourceId(R.styleable.FloatingLabelWidgetBase_flw_labelTextAppearance, -1);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 
             a.recycle();
@@ -525,6 +532,9 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
         setLabelAnimator(getDefaultLabelAnimator());
         setLabelText(floatLabelText);
+        if (floatLabelTextAppearance != -1) {
+            setLabelTextAppearance(getContext(), floatLabelTextAppearance);
+        }
         setLabelColor(floatLabelTextColor);
         setLabelTextSize(TypedValue.COMPLEX_UNIT_PX, floatLabelTextSize);
 

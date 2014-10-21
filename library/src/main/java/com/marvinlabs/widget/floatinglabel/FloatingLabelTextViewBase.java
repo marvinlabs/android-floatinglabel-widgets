@@ -35,10 +35,12 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
         final int drawableRightId;
         final int drawableLeftId;
         final int drawablePadding;
+        final int inputWidgetTextAppearance;
         final int inputWidgetTextColor;
         final float inputWidgetTextSize;
 
         if (attrs == null) {
+            inputWidgetTextAppearance = -1;
             inputWidgetTextColor = 0xaa000000;
             inputWidgetTextSize = getResources().getDimensionPixelSize(R.dimen.flw_defaultInputWidgetTextSize);
             drawableLeftId = getDefaultDrawableLeftResId();
@@ -49,6 +51,7 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
             drawableRightId = a.getResourceId(R.styleable.FloatingLabelTextViewBase_android_drawableRight, getDefaultDrawableRightResId());
             drawableLeftId = a.getResourceId(R.styleable.FloatingLabelTextViewBase_android_drawableLeft, getDefaultDrawableLeftResId());
             drawablePadding = a.getDimensionPixelSize(R.styleable.FloatingLabelTextViewBase_android_drawablePadding, 0);
+            inputWidgetTextAppearance = a.getResourceId(R.styleable.FloatingLabelTextViewBase_flw_inputWidgetTextAppearance, -1);
             inputWidgetTextColor = a.getColor(R.styleable.FloatingLabelTextViewBase_flw_inputWidgetTextColor, 0xaa000000);
             inputWidgetTextSize = a.getDimension(R.styleable.FloatingLabelTextViewBase_flw_inputWidgetTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultInputWidgetTextSize));
             a.recycle();
@@ -57,6 +60,9 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
         final TextView inputWidget = getInputWidget();
         inputWidget.setCompoundDrawablesWithIntrinsicBounds(drawableLeftId, 0, drawableRightId, 0);
         inputWidget.setCompoundDrawablePadding(drawablePadding);
+        if (inputWidgetTextAppearance != -1) {
+            inputWidget.setTextAppearance(getContext(), inputWidgetTextAppearance);
+        }
         inputWidget.setTextColor(inputWidgetTextColor);
         inputWidget.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputWidgetTextSize);
     }
