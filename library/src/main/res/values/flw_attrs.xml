@@ -4,6 +4,7 @@
     <declare-styleable name="FloatingLabelWidgetBase">
         <attr name="android:layout"/>
         <attr name="flw_labelText" format="string"/>
+        <attr name="flw_labelTextAppearance" format="reference"/>
         <attr name="flw_labelTextColor" format="color"/>
         <attr name="flw_labelTextSize" format="dimension"/>
     </declare-styleable>
@@ -12,6 +13,7 @@
         <attr name="android:drawableRight"/>
         <attr name="android:drawableLeft"/>
         <attr name="android:drawablePadding"/>
+        <attr name="flw_inputWidgetTextAppearance" format="reference"/>
         <attr name="flw_inputWidgetTextColor" format="color"/>
         <attr name="flw_inputWidgetTextSize" format="dimension"/>
     </declare-styleable>
