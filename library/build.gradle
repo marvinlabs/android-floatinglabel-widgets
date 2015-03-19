@@ -7,12 +7,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
     }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'signing'
 
 android {
@@ -48,14 +48,6 @@ android.libraryVariants.all { variant ->
         description "Generates Javadoc for $variant.name."
         source = variant.javaCompile.source
 
-        if (android.plugin.hasProperty("sdkHandler")) {
-            androidPath = "${android.plugin.sdkHandler.sdkFolder}"
-        } else {
-            androidPath = "${android.plugin.sdkDirectory}"
-        }
-
-        ext.androidJar = androidPath + "/platforms/${android.compileSdkVersion}/android.jar"
-        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
     }
 
     task("bundleJavadoc${variant.name.capitalize()}", type: Jar) {
