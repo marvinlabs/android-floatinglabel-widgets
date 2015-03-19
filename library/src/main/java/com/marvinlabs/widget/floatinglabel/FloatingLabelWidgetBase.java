@@ -21,12 +21,16 @@ import com.marvinlabs.widget.floatinglabel.anim.DefaultLabelAnimator;
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
 public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends FrameLayout {
-
     private static final String SAVE_STATE_KEY_LABEL = "saveStateLabel";
     private static final String SAVE_STATE_KEY_PARENT = "saveStateParent";
     private static final String SAVE_STATE_KEY_INPUT_WIDGET = "saveStateInputWidget";
 
     private static final String SAVE_STATE_TAG = "saveStateTag";
+
+    /**
+     * When the label is floated
+     */
+    protected FloatOn floatLabelOn = FloatOn.FLOAT_ON_VALUE_PRESENT;
 
     /**
      * true when the view has gone through at least one layout pass
@@ -496,7 +500,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
      * @param defStyle
      */
     protected void init(Context context, AttributeSet attrs, int defStyle) {
-        // Load custom attributes
+         // Load custom attributes
         final int layoutId;
         final CharSequence floatLabelText;
         final int floatLabelTextColor;
@@ -512,6 +516,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
+            floatLabelOn = FloatOn.fromInt(a.getInt(R.styleable.FloatingLabelWidgetBase_flw_floatOn, 0));
             floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 

@@ -1,18 +1,22 @@
 package com.marvinlabs.widget.floatinglabel.edittext;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.marvinlabs.widget.floatinglabel.FloatOn;
 import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
@@ -71,6 +75,19 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
         final EditText inputWidget = getInputWidget();
 
         inputWidget.setInputType(inputType);
+        inputWidget.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if(floatLabelOn == FloatOn.FLOAT_ON_FOCUS){
+                    if(focused){
+                        floatLabel();
+                    }
+                    else if (!focused && getInputWidget().getText().length() == 0) {
+                        anchorLabel();
+                    }
+                }
+            }
+        });
         inputWidget.addTextChangedListener(new EditTextWatcher());
     }
 
@@ -82,7 +99,6 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
     @Override
     protected void restoreInputWidgetState(Parcelable inputWidgetState) {
         getInputWidget().onRestoreInstanceState(inputWidgetState);
-        // setLabelAnchored(isEditTextEmpty());
     }
 
     @Override
@@ -213,12 +229,13 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
      * @param s The new text
      */
     protected void onTextChanged(String s) {
-        if (s.length() == 0) {
-            anchorLabel();
-        } else {
-            floatLabel();
+        if(floatLabelOn.equals(FloatOn.FLOAT_ON_VALUE_PRESENT)) {
+            if (s.length() == 0) {
+                anchorLabel();
+            } else {
+                floatLabel();
+            }
         }
-
         if (editTextListener != null) editTextListener.onTextChanged(this, s);
     }
 
