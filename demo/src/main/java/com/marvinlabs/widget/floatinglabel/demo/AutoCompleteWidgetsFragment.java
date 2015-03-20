@@ -23,6 +23,7 @@ public class AutoCompleteWidgetsFragment extends Fragment implements FloatingLab
 
     FloatingLabelAutoCompleteTextView textView1;
     FloatingLabelAutoCompleteTextView textView2;
+    FloatingLabelAutoCompleteTextView textView3;
 
     public static AutoCompleteWidgetsFragment newInstance() {
         return new AutoCompleteWidgetsFragment();
@@ -42,6 +43,9 @@ public class AutoCompleteWidgetsFragment extends Fragment implements FloatingLab
         textView2.setInputWidgetAdapter(new CountriesAutoCompleteAdapter(getActivity()));
         textView2.setEditTextListener(this);
 
+        textView3 = (FloatingLabelAutoCompleteTextView) root.findViewById(R.id.edit_text3);
+        textView3.setInputWidgetAdapter(new CountriesAutoCompleteAdapter(getActivity()));
+        textView3.setEditTextListener(this);
         return root;
     }
 

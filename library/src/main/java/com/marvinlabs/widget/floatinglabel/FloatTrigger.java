@@ -23,4 +23,12 @@ public enum FloatTrigger {
             return VALUE_PRESENT;
         }
     }
+
+    public boolean isFocus() {
+        return this == FloatTrigger.FOCUS;
+    }
+
+    public boolean isSetValue() {
+        return this == FloatTrigger.VALUE_PRESENT;
+    }
 }

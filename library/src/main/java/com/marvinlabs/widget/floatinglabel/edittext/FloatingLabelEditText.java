@@ -76,7 +76,7 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
         inputWidget.setOnFocusChangeListener(new OnFocusChangeListener() {
              @Override
              public void onFocusChange(View view, boolean focused) {
-                 if (floatLabelTrigger != FloatTrigger.FOCUS) return;
+                 if (floatLabelTrigger.isSetValue()) return;
                  if (focused) {
                      floatLabel();
                  } else if (!focused && getInputWidget().getText().length() == 0) {
@@ -227,7 +227,7 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
      * @param s The new text
      */
     protected void onTextChanged(String s) {
-        if (floatLabelTrigger.equals(FloatTrigger.VALUE_PRESENT)) {
+        if (floatLabelTrigger.isSetValue()) {
             if (s.length() == 0) {
                 anchorLabel();
             } else {
