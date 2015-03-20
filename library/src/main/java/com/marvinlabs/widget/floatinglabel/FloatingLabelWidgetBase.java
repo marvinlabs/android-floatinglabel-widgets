@@ -30,7 +30,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     /**
      * When the label is floated
      */
-    protected FloatOn floatLabelOn = FloatOn.FLOAT_ON_VALUE_PRESENT;
+    protected FloatTrigger floatLabelTrigger = FloatTrigger.VALUE_PRESENT;
 
     /**
      * true when the view has gone through at least one layout pass
@@ -516,7 +516,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
-            floatLabelOn = FloatOn.fromInt(a.getInt(R.styleable.FloatingLabelWidgetBase_flw_floatOn, 0));
+            floatLabelTrigger = FloatTrigger.fromInt(a.getInt(R.styleable.FloatingLabelWidgetBase_flw_floatTrigger, 0));
             floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 

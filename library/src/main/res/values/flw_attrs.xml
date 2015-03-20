@@ -4,9 +4,9 @@
     <declare-styleable name="FloatingLabelWidgetBase">
         <attr name="android:layout"/>
         <attr name="flw_labelText" format="string"/>
-        <attr name="flw_floatOn">
-            <flag name="value_present" value="0"/>
-            <flag name="focus" value="1"/>
+        <attr name="flw_floatTrigger">
+            <flag name="focusChange" value="0"/>
+            <flag name="setValue" value="1"/>
         </attr>
         <attr name="flw_labelTextColor" format="color"/>
         <attr name="flw_labelTextSize" format="dimension"/>
