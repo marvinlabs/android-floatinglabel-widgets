@@ -57,16 +57,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            app:flw_labelText="Float on focus"
-            app:flw_floatTrigger="focusChange"/>
+            app:flw_labelText="Float on focus change"
+            app:flw_floatOnFocus="true"/>
 
         <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
             android:id="@+id/edit_text7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            app:flw_labelText="Float on setValue"
-            app:flw_floatTrigger="setValue"/>
+            app:flw_labelText="Float on value not empty"
+            app:flw_floatOnFocus="false"/>
 
     </LinearLayout>
 </ScrollView>

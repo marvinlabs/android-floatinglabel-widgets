@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            app:flw_floatTrigger="setValue"
+            app:flw_floatOnFocus="false"
             app:flw_labelText="Type your country (floatTrigger: setvalue)" />
     </LinearLayout>
 </ScrollView>

@@ -211,7 +211,7 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
      * @param s The new text
      */
     protected void onTextChanged(String s) {
-        if (floatLabelTrigger.isSetValue()) {
+        if (!isFloatOnFocusEnabled()) {
             if (s.length() == 0) {
                 anchorLabel();
             } else {

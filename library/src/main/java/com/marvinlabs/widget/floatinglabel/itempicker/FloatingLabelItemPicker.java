@@ -193,16 +193,14 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
      */
     protected void onSelectedItemsChanged() {
         final Collection<ItemT> selectedItems = getSelectedItems();
-            if (selectedItems.isEmpty()) {
-                anchorLabel();
-                getInputWidget().setText("");
-            } else {
-                getInputWidget().setText(getItemPrinter().printCollection(selectedItems));
-                if(floatLabelTrigger.isSetValue()) {
-                    floatLabel();
-                }
-            }
-        if (itemPickerListener!=null) itemPickerListener.onSelectionChanged(this, selectedItems);
+        if (selectedItems.isEmpty()) {
+            anchorLabel();
+            getInputWidget().setText("");
+        } else {
+            getInputWidget().setText(getItemPrinter().printCollection(selectedItems));
+            floatLabel();
+        }
+        if (itemPickerListener != null) itemPickerListener.onSelectionChanged(this, selectedItems);
     }
 
     /**
@@ -249,9 +247,6 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
     OnClickListener inputWidgetClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (floatLabelTrigger.isFocusChange()) {
-                floatLabel();
-            }
             requestShowPicker();
         }
     };

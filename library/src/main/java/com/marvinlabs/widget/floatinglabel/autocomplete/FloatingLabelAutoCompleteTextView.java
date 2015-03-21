@@ -248,13 +248,14 @@ public class FloatingLabelAutoCompleteTextView extends FloatingLabelTextViewBase
      * @param s The new text
      */
     protected void onTextChanged(String s) {
-        if(floatLabelTrigger.isSetValue()){
+        if(!isFloatOnFocusEnabled()){
             if (s.length() == 0) {
                 anchorLabel();
             } else {
                 floatLabel();
             }
         }
+
         if (editTextListener != null) editTextListener.onTextChanged(this, s);
     }
 
