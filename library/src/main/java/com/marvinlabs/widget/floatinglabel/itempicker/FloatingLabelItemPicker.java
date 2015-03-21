@@ -249,7 +249,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
     OnClickListener inputWidgetClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (floatLabelTrigger.isFocus()) {
+            if (floatLabelTrigger.isFocusChange()) {
                 floatLabel();
             }
             requestShowPicker();

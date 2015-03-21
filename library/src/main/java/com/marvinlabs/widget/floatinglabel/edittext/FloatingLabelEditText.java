@@ -10,11 +10,9 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.marvinlabs.widget.floatinglabel.FloatTrigger;
 import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
@@ -71,21 +69,7 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
         }
 
         final EditText inputWidget = getInputWidget();
-
         inputWidget.setInputType(inputType);
-        inputWidget.setOnFocusChangeListener(new OnFocusChangeListener() {
-             @Override
-             public void onFocusChange(View view, boolean focused) {
-                 if (floatLabelTrigger.isSetValue()) return;
-                 if (focused) {
-                     floatLabel();
-                 } else if (!focused && getInputWidget().getText().length() == 0) {
-                     anchorLabel();
-                 }
-             }
-         }
-
-        );
         inputWidget.addTextChangedListener(new EditTextWatcher());
     }
 

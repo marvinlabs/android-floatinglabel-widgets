@@ -30,7 +30,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     /**
      * When the label is floated
      */
-    protected FloatTrigger floatLabelTrigger = FloatTrigger.VALUE_PRESENT;
+    protected FloatTrigger floatLabelTrigger = FloatTrigger.SET_VALUE;
 
     /**
      * true when the view has gone through at least one layout pass
@@ -500,7 +500,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
      * @param defStyle
      */
     protected void init(Context context, AttributeSet attrs, int defStyle) {
-         // Load custom attributes
+        // Load custom attributes
         final int layoutId;
         final CharSequence floatLabelText;
         final int floatLabelTextColor;
@@ -508,6 +508,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
         if (attrs == null) {
             layoutId = getDefaultLayoutId();
+            floatLabelTrigger = FloatTrigger.fromInt(0);
             floatLabelText = null;
             floatLabelTextColor = 0x66000000;
             floatLabelTextSize = getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize);
@@ -515,8 +516,8 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
-            floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
             floatLabelTrigger = FloatTrigger.fromInt(a.getInt(R.styleable.FloatingLabelWidgetBase_flw_floatTrigger, 0));
+            floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
             floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextSize = a.getDimension(R.styleable.FloatingLabelWidgetBase_flw_labelTextSize, getResources().getDimensionPixelSize(R.dimen.flw_defaultLabelTextSize));
 

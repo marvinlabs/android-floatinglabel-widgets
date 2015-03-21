@@ -9,14 +9,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.marvinlabs.widget.floatinglabel.FloatTrigger;
 import com.marvinlabs.widget.floatinglabel.FloatingLabelTextViewBase;
 import com.marvinlabs.widget.floatinglabel.LabelAnimator;
 import com.marvinlabs.widget.floatinglabel.R;
@@ -91,17 +89,6 @@ public class FloatingLabelAutoCompleteTextView extends FloatingLabelTextViewBase
         inputWidget.setDropDownHeight(dropDownHeight);
         inputWidget.setDropDownBackgroundResource(popupBackground);
         inputWidget.addTextChangedListener(new EditTextWatcher());
-        inputWidget.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focused) {
-                if (floatLabelTrigger.isSetValue()) return;
-                if (focused) {
-                    floatLabel();
-                } else if (!focused && getInputWidget().getText().length() == 0) {
-                    anchorLabel();
-                }
-            }
-        });
     }
 
     protected int getDefaultPopupBackgroundResId() {

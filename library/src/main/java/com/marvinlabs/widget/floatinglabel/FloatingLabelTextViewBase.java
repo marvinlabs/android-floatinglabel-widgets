@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -59,6 +60,7 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
         inputWidget.setCompoundDrawablePadding(drawablePadding);
         inputWidget.setTextColor(inputWidgetTextColor);
         inputWidget.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputWidgetTextSize);
+        inputWidget.setOnFocusChangeListener(inputWidgetFocusChangeListener);
     }
 
     protected int getDefaultDrawableLeftResId() {
@@ -68,4 +70,20 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
     protected int getDefaultDrawableRightResId() {
         return 0;
     }
+
+    /**
+     * Float the label when the input widget receives focus
+     */
+    OnFocusChangeListener inputWidgetFocusChangeListener = new OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean focused) {
+            if (floatLabelTrigger.isSetValue()) return;
+
+            if (focused) {
+                floatLabel();
+            } else if (!focused && getInputWidget().getText().length() == 0) {
+                anchorLabel();
+            }
+        }
+    };
 }
