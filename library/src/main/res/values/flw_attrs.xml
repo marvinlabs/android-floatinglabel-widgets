@@ -4,6 +4,7 @@
     <declare-styleable name="FloatingLabelWidgetBase">
         <attr name="android:layout"/>
         <attr name="flw_labelText" format="string"/>
+        <attr name="flw_floatOnFocus" format="boolean"/>
         <attr name="flw_labelTextAppearance" format="reference"/>
         <attr name="flw_labelTextColor" format="color"/>
         <attr name="flw_labelTextSize" format="dimension"/>

@@ -69,7 +69,6 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
         }
 
         final EditText inputWidget = getInputWidget();
-
         inputWidget.setInputType(inputType);
         inputWidget.addTextChangedListener(new EditTextWatcher());
     }
@@ -82,7 +81,6 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
     @Override
     protected void restoreInputWidgetState(Parcelable inputWidgetState) {
         getInputWidget().onRestoreInstanceState(inputWidgetState);
-        // setLabelAnchored(isEditTextEmpty());
     }
 
     @Override
@@ -213,12 +211,13 @@ public class FloatingLabelEditText extends FloatingLabelTextViewBase<EditText> {
      * @param s The new text
      */
     protected void onTextChanged(String s) {
-        if (s.length() == 0) {
-            anchorLabel();
-        } else {
-            floatLabel();
+        if (!isFloatOnFocusEnabled()) {
+            if (s.length() == 0) {
+                anchorLabel();
+            } else {
+                floatLabel();
+            }
         }
-
         if (editTextListener != null) editTextListener.onTextChanged(this, s);
     }
 

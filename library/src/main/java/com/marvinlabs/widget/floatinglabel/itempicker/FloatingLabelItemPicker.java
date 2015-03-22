@@ -200,8 +200,7 @@ public class FloatingLabelItemPicker<ItemT> extends FloatingLabelTextViewBase<Te
             getInputWidget().setText(getItemPrinter().printCollection(selectedItems));
             floatLabel();
         }
-
-        if (itemPickerListener!=null) itemPickerListener.onSelectionChanged(this, selectedItems);
+        if (itemPickerListener != null) itemPickerListener.onSelectionChanged(this, selectedItems);
     }
 
     /**

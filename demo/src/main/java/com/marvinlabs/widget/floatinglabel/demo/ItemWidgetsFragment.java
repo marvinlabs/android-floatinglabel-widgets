@@ -22,6 +22,8 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
 
     FloatingLabelItemPicker<String> picker1;
     FloatingLabelItemPicker<String> picker2;
+    FloatingLabelItemPicker<String> picker3;
+    FloatingLabelItemPicker<String> picker4;
 
     public static ItemWidgetsFragment newInstance() {
         return new ItemWidgetsFragment();
@@ -70,6 +72,41 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
             }
         });
 
+        picker3 = (FloatingLabelItemPicker<String>) root.findViewById(R.id.picker3);
+        picker3.setItemPickerListener(this);
+        picker3.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 1.1", "Item 1.2", "Item 1.3", "Item 1.4", "Item 1.5", "Item 1.6", "Item 1.7", "Item 1.8")));
+        picker3.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
+            @Override
+            public void onShowItemPickerDialog(FloatingLabelItemPicker<String> source) {
+                StringPickerDialogFragment itemPicker3 = StringPickerDialogFragment.newInstance(
+                        source.getId(),
+                        "Picker 3",
+                        "OK", "Cancel",
+                        true,
+                        source.getSelectedIndices(),
+                        new ArrayList<String>(source.getAvailableItems()));
+                itemPicker3.setTargetFragment(ItemWidgetsFragment.this, 0);
+                itemPicker3.show(getChildFragmentManager(), "ItemPicker3");
+            }
+        });
+
+        picker4 = (FloatingLabelItemPicker<String>) root.findViewById(R.id.picker4);
+        picker4.setItemPickerListener(this);
+        picker4.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 2.1", "Item 2.2", "Item 2.3", "Item 2.4")));
+        picker4.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
+            @Override
+            public void onShowItemPickerDialog(FloatingLabelItemPicker source) {
+                StringPickerDialogFragment itemPicker4 = StringPickerDialogFragment.newInstance(
+                        source.getId(),
+                        "Picker 4",
+                        "OK", "Cancel",
+                        false,
+                        source.getSelectedIndices(),
+                        new ArrayList<String>(source.getAvailableItems()));
+                itemPicker4.setTargetFragment(ItemWidgetsFragment.this, 0);
+                itemPicker4.show(getChildFragmentManager(), "ItemPicker4");
+            }
+        });
         return root;
     }
 
@@ -92,6 +129,10 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
             picker1.setSelectedIndices(selectedIndices);
         } else if (pickerId == R.id.picker2) {
             picker2.setSelectedIndices(selectedIndices);
+        } else if (pickerId == R.id.picker3) {
+            picker3.setSelectedIndices(selectedIndices);
+        } else if (pickerId == R.id.picker4) {
+            picker4.setSelectedIndices(selectedIndices);
         }
     }
 }

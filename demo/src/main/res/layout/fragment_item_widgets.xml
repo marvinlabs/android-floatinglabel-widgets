@@ -30,5 +30,22 @@
             android:layout_marginBottom="15dp"
             app:flw_labelText="Single item picker" />
 
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
+            android:id="@+id/picker3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:drawableRight="@drawable/ic_users"
+            app:flw_floatOnFocus="false"
+            app:flw_labelText="Multiple item picker (float on value)" />
+
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
+            android:id="@+id/picker4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_floatOnFocus="false"
+            app:flw_labelText="Single item picker (float on value)" />
+
     </LinearLayout>
 </ScrollView>

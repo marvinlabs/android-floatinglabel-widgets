@@ -155,7 +155,8 @@ public abstract class FloatingLabelInstantPicker<InstantT extends Instant & Parc
             floatLabel();
         }
 
-        if (instantPickerListener!=null) instantPickerListener.onInstantChanged(this, selectedInstant);
+        if (instantPickerListener != null)
+            instantPickerListener.onInstantChanged(this, selectedInstant);
     }
 
     /**

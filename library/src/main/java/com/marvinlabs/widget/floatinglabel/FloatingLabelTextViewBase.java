@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -65,6 +66,20 @@ public abstract class FloatingLabelTextViewBase<InputWidgetT extends TextView> e
         }
         inputWidget.setTextColor(inputWidgetTextColor);
         inputWidget.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputWidgetTextSize);
+        inputWidget.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!isFloatOnFocusEnabled()) return;
+
+                if (hasFocus) {
+                    floatLabel();
+                } else {
+                    if (getInputWidget().getText().length() == 0) {
+                        anchorLabel();
+                    }
+                }
+            }
+        });
     }
 
     protected int getDefaultDrawableLeftResId() {

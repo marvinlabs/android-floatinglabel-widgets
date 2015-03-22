@@ -21,12 +21,16 @@ import com.marvinlabs.widget.floatinglabel.anim.DefaultLabelAnimator;
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
 public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends FrameLayout {
-
     private static final String SAVE_STATE_KEY_LABEL = "saveStateLabel";
     private static final String SAVE_STATE_KEY_PARENT = "saveStateParent";
     private static final String SAVE_STATE_KEY_INPUT_WIDGET = "saveStateInputWidget";
 
     private static final String SAVE_STATE_TAG = "saveStateTag";
+
+    /**
+     * When the label is floated
+     */
+    protected boolean isFloatOnFocusEnabled = true;
 
     /**
      * true when the view has gone through at least one layout pass
@@ -412,6 +416,24 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         return floatingLabel;
     }
 
+    /**
+     * Shall we float the label we we gain focus
+     *
+     * @return
+     */
+    public boolean isFloatOnFocusEnabled() {
+        return isFloatOnFocusEnabled;
+    }
+
+    /**
+     * Shall we float the label we we gain focus
+     *
+     * @param isFloatOnFocusEnabled
+     */
+    public void setFloatOnFocusEnabled(boolean isFloatOnFocusEnabled) {
+        this.isFloatOnFocusEnabled = isFloatOnFocusEnabled;
+    }
+
     // =============================================================================================
     // ViewGroup overrides
     // ==
@@ -509,6 +531,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
         if (attrs == null) {
             layoutId = getDefaultLayoutId();
+            isFloatOnFocusEnabled = true;
             floatLabelText = null;
             floatLabelTextAppearance = -1;
             floatLabelTextColor = 0x66000000;
@@ -517,6 +540,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingLabelWidgetBase, defStyle, 0);
 
             layoutId = a.getResourceId(R.styleable.FloatingLabelWidgetBase_android_layout, getDefaultLayoutId());
+            isFloatOnFocusEnabled = a.getBoolean(R.styleable.FloatingLabelWidgetBase_flw_floatOnFocus, true);
             floatLabelText = a.getText(R.styleable.FloatingLabelWidgetBase_flw_labelText);
             floatLabelTextColor = a.getColor(R.styleable.FloatingLabelWidgetBase_flw_labelTextColor, 0x66000000);
             floatLabelTextAppearance = a.getResourceId(R.styleable.FloatingLabelWidgetBase_flw_labelTextAppearance, -1);
