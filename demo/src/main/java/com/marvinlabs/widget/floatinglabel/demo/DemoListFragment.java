@@ -20,6 +20,7 @@ public class DemoListFragment extends android.support.v4.app.ListFragment {
 
     public static final Demo[] DEMOS = new Demo[]{
             new Demo("EditText widgets", TextWidgetsFragment.class),
+            new Demo("Animate Layout Changes Compatibility", AnimateLayoutChangesCompatFragment.class),
             new Demo("AutoComplete widgets", AutoCompleteWidgetsFragment.class),
             new Demo("Item picker widgets", ItemWidgetsFragment.class),
             new Demo("Instant picker widgets", InstantWidgetsFragment.class),
