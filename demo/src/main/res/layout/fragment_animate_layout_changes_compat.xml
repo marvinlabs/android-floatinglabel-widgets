@@ -35,51 +35,35 @@
                 android:layout_marginBottom="15dp"
                 app:flw_labelText="Simple text input" />
 
-            <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
-                android:id="@+id/edit_text2"
+            <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
+                android:id="@+id/picker1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:drawableLeft="@drawable/ic_lock"
-                android:drawablePadding="10dp"
-                android:inputType="textPassword"
-                app:flw_labelText="Password input" />
+                android:drawableRight="@drawable/ic_users"
+                android:drawableEnd="@drawable/ic_users"
+                app:flw_labelText="Multiple item picker" />
 
-            <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
-                android:id="@+id/edit_text3"
+            <com.marvinlabs.widget.floatinglabel.instantpicker.FloatingLabelDatePicker
+                android:id="@+id/date_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:drawablePadding="10dp"
-                android:inputType="textMultiLine"
-                app:flw_labelText="Multiline input" />
+                app:flw_labelText="Pick a date" />
 
-            <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
-                android:id="@+id/edit_text4"
+            <com.marvinlabs.widget.floatinglabel.itemchooser.FloatingLabelItemChooser
+                android:id="@+id/chooser1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                app:flw_labelText="Custom text sizes &amp; colors"
-                app:flw_labelTextColor="@android:color/holo_blue_dark"
-                app:flw_inputWidgetTextColor="@android:color/holo_green_dark"
-                app:flw_labelTextSize="18sp"
-                app:flw_inputWidgetTextSize="26sp"/>
+                app:flw_labelText="Choose a product" />
 
-            <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
-                android:id="@+id/edit_text6"
+            <com.marvinlabs.widget.floatinglabel.autocomplete.FloatingLabelAutoCompleteTextView
+                android:id="@+id/auto_text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                app:flw_labelText="Float on focus change"
-                app:flw_floatOnFocus="true"/>
-
-            <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
-                android:id="@+id/edit_text7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                app:flw_labelText="Float on value not empty"
-                app:flw_floatOnFocus="false"/>
+                app:flw_labelText="Simple text input" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
