@@ -589,10 +589,12 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
     /**
      * Return the visibility of the parent ViewGroup
+     *
      * @return
      */
     private int getParentVisibility() {
-        return getRootView().findViewById(((ViewGroup)getParent()).getId()).getVisibility();
+        View parentView = getRootView().findViewById(((ViewGroup) getParent()).getId());
+        return parentView != null ? parentView.getVisibility() : View.GONE;
     }
 
     /**
