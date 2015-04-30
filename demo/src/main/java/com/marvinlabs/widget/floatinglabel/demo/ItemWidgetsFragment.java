@@ -1,6 +1,7 @@
 package com.marvinlabs.widget.floatinglabel.demo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,9 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
     FloatingLabelItemPicker<String> picker2;
     FloatingLabelItemPicker<String> picker3;
     FloatingLabelItemPicker<String> picker4;
+    FloatingLabelItemPicker<String> picker5;
+
+    Handler handler = new Handler();
 
     public static ItemWidgetsFragment newInstance() {
         return new ItemWidgetsFragment();
@@ -107,6 +111,47 @@ public class ItemWidgetsFragment extends Fragment implements ItemPickerListener<
                 itemPicker4.show(getChildFragmentManager(), "ItemPicker4");
             }
         });
+
+        // Picker 5 is initally empty and is populated 10 seconds later
+        picker5 = (FloatingLabelItemPicker<String>) root.findViewById(R.id.picker5);
+        picker5.setItemPickerListener(this);
+        picker5.setAvailableItems(new ArrayList<String>());
+        picker5.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
+            @Override
+            public void onShowItemPickerDialog(FloatingLabelItemPicker source) {
+                if (source.getAvailableItems().isEmpty()) {
+                    Toast.makeText(getActivity(), "Wait a little bit more", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                StringPickerDialogFragment itemPicker5 = StringPickerDialogFragment.newInstance(
+                        source.getId(),
+                        "Picker 4",
+                        "OK", "Cancel",
+                        false,
+                        source.getSelectedIndices(),
+                        new ArrayList<String>(source.getAvailableItems()));
+                itemPicker5.setTargetFragment(ItemWidgetsFragment.this, 0);
+                itemPicker5.show(getChildFragmentManager(), "ItemPicker5");
+            }
+        });
+
+        handler.postDelayed(new Runnable() {
+            long startTime = System.currentTimeMillis();
+
+            @Override
+            public void run() {
+                long elapsedSec = (long) ((System.currentTimeMillis() - startTime) / 1000);
+                if (elapsedSec < 10) {
+                    picker5.setLabelText(String.format("This is empty, it will be enabled in %d seconds", 10 - elapsedSec));
+                    handler.postDelayed(this, 1000);
+                } else {
+                    picker5.setLabelText("You can pick an item now");
+                    picker5.setAvailableItems(new ArrayList<String>(Arrays.asList("Item 5.1", "Item 5.2", "Item 5.3", "Item 5.4")));
+                }
+            }
+        }, 1000);
+
         return root;
     }
 

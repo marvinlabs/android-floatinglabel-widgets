@@ -47,5 +47,13 @@
             app:flw_floatOnFocus="false"
             app:flw_labelText="Single item picker (float on value)" />
 
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
+            android:id="@+id/picker5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:flw_floatOnFocus="false"
+            app:flw_labelText="Initially has 0 items, it gets populated after 10s" />
+
     </LinearLayout>
 </ScrollView>
