@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -568,12 +569,14 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                isLaidOut = true;
-                setInitialWidgetState();
-                if (Build.VERSION.SDK_INT >= 16) {
-                    getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                } else {
-                    getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (getParentVisibility() == View.VISIBLE) {
+                    isLaidOut = true;
+                    setInitialWidgetState();
+                    if (Build.VERSION.SDK_INT >= 16) {
+                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    } else {
+                        getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
                 }
             }
         });
@@ -582,6 +585,14 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         // adding children
         initCompleted = true;
         onInitCompleted();
+    }
+
+    /**
+     * Return the visibility of the parent ViewGroup
+     * @return
+     */
+    private int getParentVisibility() {
+        return getRootView().findViewById(((ViewGroup)getParent()).getId()).getVisibility();
     }
 
     /**
