@@ -1,41 +1,34 @@
 apply plugin: 'com.android.application'
 
-ext.signingProperties = getSigningProperties()
-
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
-
-    signingConfigs {
-        release {
-            if (signingProperties['canSignRelease']) {
-                storeFile file(signingProperties['storeFile'])
-                storePassword signingProperties['storePassword']
-                keyAlias signingProperties['keyAlias']
-                keyPassword signingProperties['keyPassword']
-            }
-        }
-    }
+    compileSdkVersion Integer.parseInt(BUILD_SDK_VERSION)
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "com.marvinlabs.widget.floatinglabel.demo"
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
-        versionCode getAppVersionCode()
-        versionName getAppVersionName()
+        applicationId APP_ID
+        minSdkVersion Integer.parseInt(APP_SDK_MIN)
+        targetSdkVersion Integer.parseInt(APP_SDK_TARGET)
+        versionCode getProjectVersionCode()
+        versionName getProjectVersionName()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library')
-    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
 }
+
+apply from: "$rootDir/gradle/signing.gradle";

@@ -1,0 +1,38 @@
+ext.getProjectVersionName = {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags', '--always'
+            standardOutput = stdout
+        }
+        def v = stdout.toString().trim()
+        if (v.contains("-") || !v.contains(".")) {
+            return v + '-SNAPSHOT'
+        } else {
+            return v
+        }
+    }
+    catch (ignored) {
+        return "0.0.0-SNAPSHOT";
+    }
+}
+
+ext.getProjectVersionCode = {
+    try {
+        def code = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--count', 'develop'
+            standardOutput = code
+        }
+        return code.toString().trim().toInteger()
+    }
+    catch (ignored) {
+        return -1;
+    }
+}
+
+ext.isReleaseBuild = {
+    return !getProjectVersionName().contains("SNAPSHOT")
+}
+
+println 'Building version #' + getProjectVersionCode() + ' : ' + getProjectVersionName()

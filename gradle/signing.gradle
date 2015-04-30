@@ -1,0 +1,6 @@
+if (hasProperty(SIGNING_PROPERTY_NAME)) {
+    def String signingScriptPath = getProperty(SIGNING_PROPERTY_NAME) + ".gradle";
+    if (new File(signingScriptPath).exists()) {
+        apply from: signingScriptPath;
+    }
+}
