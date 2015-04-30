@@ -1,5 +1,6 @@
 package com.marvinlabs.widget.floatinglabel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -7,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -19,9 +21,12 @@ import android.widget.TextView;
 import com.marvinlabs.widget.floatinglabel.anim.DefaultLabelAnimator;
 
 /**
+ * Base class for all our floating label widgets. Handles most of the label related stuff.
+ * <p/>
  * Created by Vincent Mimoun-Prat @ MarvinLabs, 28/08/2014.
  */
 public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends FrameLayout {
+
     private static final String SAVE_STATE_KEY_LABEL = "saveStateLabel";
     private static final String SAVE_STATE_KEY_PARENT = "saveStateParent";
     private static final String SAVE_STATE_KEY_INPUT_WIDGET = "saveStateInputWidget";
@@ -92,6 +97,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         layoutChild(getInputWidget(), childLeft, childTop + floatingLabel.getMeasuredHeight(), childRight, childBottom);
     }
 
+    @SuppressLint("InlinedApi")
     private void layoutChild(View child, int parentLeft, int parentTop, int parentRight, int parentBottom) {
         if (child.getVisibility() != GONE) {
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
@@ -118,14 +124,14 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
             switch (absoluteGravity & Gravity.HORIZONTAL_GRAVITY_MASK) {
                 case Gravity.CENTER_HORIZONTAL:
-                    childLeft = parentLeft + (parentRight - parentLeft - width) / 2 + lp.leftMargin - lp.rightMargin;
+                    childLeft = parentLeft + (parentRight - parentLeft - width) / 2 + lp.getMarginStart() - lp.getMarginEnd();
                     break;
-                case Gravity.RIGHT:
-                    childLeft = parentRight - width - lp.rightMargin;
+                case Gravity.END:
+                    childLeft = parentRight - width - lp.getMarginEnd();
                     break;
-                case Gravity.LEFT:
+                case Gravity.START:
                 default:
-                    childLeft = parentLeft + lp.leftMargin;
+                    childLeft = parentLeft + lp.getMarginStart();
             }
 
             child.layout(childLeft, childTop, childLeft + width, childTop + height);
@@ -154,7 +160,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         int specMode = MeasureSpec.getMode(heightMeasureSpec);
         int specSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        int result = 0;
+        int result;
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
@@ -174,7 +180,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
         int specMode = MeasureSpec.getMode(widthMeasureSpec);
         int specSize = MeasureSpec.getSize(widthMeasureSpec);
 
-        int result = 0;
+        int result;
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
@@ -309,9 +315,9 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
      *
      * @param labelAnimator LabelAnimator to use; null causes use of the default LabelAnimator
      */
-    public void setLabelAnimator(LabelAnimator labelAnimator) {
+    public void setLabelAnimator(LabelAnimator<InputWidgetT> labelAnimator) {
         if (labelAnimator == null) {
-            this.labelAnimator = new DefaultLabelAnimator();
+            this.labelAnimator = new DefaultLabelAnimator<>();
         } else {
             if (this.labelAnimator != null) {
                 labelAnimator.setLabelAnchored(getInputWidget(), getFloatingLabel(), this.labelAnimator.isAnchored());
@@ -326,8 +332,6 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
     /**
      * Get the animator for the label
-     *
-     * @return
      */
     public LabelAnimator<InputWidgetT> getLabelAnimator() {
         return labelAnimator;
@@ -336,18 +340,16 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     /**
      * The default animator to use for the label. That method is called in init so that subclasses
      * can provide their own specialized animator if appropriate.
-     *
-     * @return
      */
     protected LabelAnimator<InputWidgetT> getDefaultLabelAnimator() {
-        return new DefaultLabelAnimator<InputWidgetT>();
+        return new DefaultLabelAnimator<>();
     }
 
     /**
      * Delegate method for the floating label TextView
      */
-    public void setLabelText(int resid) {
-        floatingLabel.setText(resid);
+    public void setLabelText(int resId) {
+        floatingLabel.setText(resId);
     }
 
     /**
@@ -429,7 +431,8 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     /**
      * Shall we float the label we we gain focus
      *
-     * @param isFloatOnFocusEnabled
+     * @param isFloatOnFocusEnabled true if float should be triggered on focus change. false if it
+     *                              should be triggered by emptiness state
      */
     public void setFloatOnFocusEnabled(boolean isFloatOnFocusEnabled) {
         this.isFloatOnFocusEnabled = isFloatOnFocusEnabled;
@@ -440,7 +443,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     // ==
 
     @Override
-    public void addView(View child) {
+    public void addView(@NonNull View child) {
         if (initCompleted) {
             throw new UnsupportedOperationException("You cannot add child views to a FloatLabel");
         } else {
@@ -449,7 +452,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     }
 
     @Override
-    public void addView(View child, int index) {
+    public void addView(@NonNull View child, int index) {
         if (initCompleted) {
             throw new UnsupportedOperationException("You cannot add child views to a FloatLabel");
         } else {
@@ -458,7 +461,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     }
 
     @Override
-    public void addView(View child, int index, android.view.ViewGroup.LayoutParams params) {
+    public void addView(@NonNull View child, int index, android.view.ViewGroup.LayoutParams params) {
         if (initCompleted) {
             throw new UnsupportedOperationException("You cannot add child views to a FloatLabel");
         } else {
@@ -467,7 +470,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     }
 
     @Override
-    public void addView(View child, int width, int height) {
+    public void addView(@NonNull View child, int width, int height) {
         if (initCompleted) {
             throw new UnsupportedOperationException("You cannot add child views to a FloatLabel");
         } else {
@@ -476,7 +479,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     }
 
     @Override
-    public void addView(View child, android.view.ViewGroup.LayoutParams params) {
+    public void addView(@NonNull View child, android.view.ViewGroup.LayoutParams params) {
         if (initCompleted) {
             throw new UnsupportedOperationException("You cannot add child views to a FloatLabel");
         } else {
@@ -508,8 +511,6 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
     /**
      * Returns the saved state of this widget
-     *
-     * @return
      */
     protected Bundle getSavedState() {
         return savedState;
@@ -518,9 +519,9 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     /**
      * Initialise the widget: read attributes, inflate layout and set the basic properties
      *
-     * @param context
-     * @param attrs
-     * @param defStyle
+     * @param context  The context
+     * @param attrs    Attribute set
+     * @param defStyle Default style
      */
     protected void init(Context context, AttributeSet attrs, int defStyle) {
         // Load custom attributes
@@ -575,6 +576,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
                     if (Build.VERSION.SDK_INT >= 16) {
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     } else {
+                        //noinspection deprecation
                         getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 }
@@ -589,8 +591,6 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
 
     /**
      * Return the visibility of the parent ViewGroup
-     *
-     * @return
      */
     private int getParentVisibility() {
         View parentView = getRootView().findViewById(((ViewGroup) getParent()).getId());
@@ -598,13 +598,13 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
     }
 
     /**
-     * Can be overriden to do something after we are done with init
+     * Can be overridden to do something after we are done with init
      */
     protected void onInitCompleted() {
     }
 
     /**
-     * Can be overriden to do something after the layout inflation
+     * Can be overridden to do something after the layout inflation
      */
     protected void afterLayoutInflated(Context context, AttributeSet attrs, int defStyle) {
     }
@@ -628,6 +628,7 @@ public abstract class FloatingLabelWidgetBase<InputWidgetT extends View> extends
             throw new RuntimeException("Your layout must have an input widget whose ID is @id/flw_input_widget");
         }
         try {
+            //noinspection unchecked
             inputWidget = (InputWidgetT) iw;
         } catch (ClassCastException e) {
             throw new RuntimeException("The input widget is not of the expected type");
