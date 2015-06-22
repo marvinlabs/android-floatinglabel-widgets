@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -87,7 +88,14 @@ public class FloatingLabelAutoCompleteTextView extends FloatingLabelTextViewBase
         inputWidget.setThreshold(completionThreshold);
         inputWidget.setDropDownWidth(dropDownWidth);
         inputWidget.setDropDownHeight(dropDownHeight);
-        inputWidget.setDropDownBackgroundResource(popupBackground);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            inputWidget.setDropDownBackgroundResource(popupBackground);
+        }
+        else{
+            inputWidget.setDropDownBackgroundDrawable(getContext().getDrawable(popupBackground));
+        }
+
         inputWidget.addTextChangedListener(new EditTextWatcher());
     }
 
